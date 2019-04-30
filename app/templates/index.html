@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+
+{% block app_content %}
+    {% for card in cards %}
+        {% if card.kind == 'Profit' %}
+            <div style="background: greenyellow;">
+                <h3>{{ card.kind }}</h3>
+                <p>
+                    price - {{ card.price }}<br>
+                    received from - {{ card.category }}<br>
+                    date  - {{ card.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}<br>
+                </p>
+            </div>
+        {% else %}
+            <div style="background: indianred;">
+                <h3>{{ card.kind }}</h3>
+                <p>
+                    price - {{ card.price }}<br>
+                    spent on - {{ card.category }}<br>
+                    date  - {{ card.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}<br>
+                </p>
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

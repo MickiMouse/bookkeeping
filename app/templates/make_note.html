@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+
+{% block app_content %}
+{#    <form action="" method="post">#}
+{#        {{ form.hidden_tag() }}#}
+{#        <p>#}
+{#            {{ form.price.label }}<br>#}
+{#            {{ form.price() }}<br>#}
+{#            {% for error in form.price.errors %}#}
+{#                <span style="color: red">{{ error }}</span>#}
+{#            {% endfor %}#}
+{#        </p>#}
+{#        <p>#}
+{#            {{ form.kind.label }}<br>#}
+{#            {{ form.kind }}<br>#}
+{#            {% for error in form.kind.errors %}#}
+{#                <span style="color: red">{{ error }}</span>#}
+{#            {% endfor %}#}
+{#        </p>#}
+{#        <p>#}
+{#            {{ form.category.label }}<br>#}
+{#            {{ form.category(list="categories") }}#}
+{#            <datalist id="categories">#}
+{#                {% for entry in entries %}#}
+{#                    <option value="{{ entry }}">#}
+{#                {% endfor %}#}
+{#            </datalist>#}
+{#            {% for error in form.category.errors %}#}
+{#                <span style="color: red">{{ error }}</span>#}
+{#            {% endfor %}#}
+{#        </p>#}
+{#        {{ form.submit() }}#}
+{#    </form>#}
+    <div class="row">
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </div>
+{% endblock %}

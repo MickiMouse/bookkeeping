@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+
+{% block app_content %}
+    <table class="table">
+        {% for card in cards %}
+            <tr>
+                <td>{{ card.category }}</td>
+                <td>{{ card.price }}</td>
+                <td>{{ card.timestamp }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endblock %}

@@ -1,0 +1,7 @@
+Hello, {{ user.username }}
+
+Click to confirm your account
+
+{{ url_for('confirm', token=token, _external=True) }}
+
+Thank you, good luck :)
