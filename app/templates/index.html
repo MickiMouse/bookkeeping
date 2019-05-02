@@ -2,9 +2,10 @@
 
 
 {% block app_content %}
-    {% for card in cards %}
+    <h1 class="h1">Hello, {{ current_user.username }}</h1>
+    {% for card in cards.items %}
         {% if card.kind == 'Profit' %}
-            <div style="background: greenyellow;">
+            <div>
                 <h3>{{ card.kind }}</h3>
                 <p>
                     price - {{ card.price }}<br>
@@ -13,7 +14,7 @@
                 </p>
             </div>
         {% else %}
-            <div style="background: indianred;">
+            <div>
                 <h3>{{ card.kind }}</h3>
                 <p>
                     price - {{ card.price }}<br>
@@ -23,4 +24,6 @@
             </div>
         {% endif %}
     {% endfor %}
+    <a href="{{ prev_url }}"><button {% if prev_url is none %}disabled{% endif %}>&larr;</button></a>
+    <a href="{{ next_url }}"><button {% if next_url is none %}disabled{% endif %}>&rarr;</button></a>
 {% endblock %}

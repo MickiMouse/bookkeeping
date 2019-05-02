@@ -21,8 +21,19 @@ def preview():
 @app.route('/index')
 @login_required
 def index():
-    cards = Card.query.filter_by(payer=current_user).order_by(Card.timestamp.desc())
-    return render_template('index.html', cards=cards)
+    page = request.args.get('page', 1, type=int)
+    cards = Card.query.filter_by(
+        payer=current_user
+    ).order_by(
+        Card.timestamp.desc()
+    ).paginate(
+        page=page,
+        per_page=app.config['CARDS_PER_PAGE'],
+        error_out=False
+    )
+    next_url = url_for('index', page=cards.next_num) if cards.has_next else None
+    prev_url = url_for('index', page=cards.prev_num) if cards.has_prev else None
+    return render_template('index.html', cards=cards, next_url=next_url, prev_url=prev_url)
 
 
 @app.route('/note', methods=['GET', 'POST'])
