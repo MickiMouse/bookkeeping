@@ -3,7 +3,7 @@
 
 {% block app_content %}
     <div class="d-flex justify-content-center">
-        <a href="{{ url_for('create_card') }}"><div class="btn btn-success">Add card</div></a>
+        <a href="{{ url_for('create_card') }}"><button class="button">Add card</button></a>
     </div>
     <div class="card-deck my-4">
         {% for card in cards.items %}

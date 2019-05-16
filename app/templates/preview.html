@@ -8,7 +8,7 @@
                 The application was created to control your expenses
             </h1>
             <a href="{% if current_user.is_active %}{{ url_for('create_card') }}{% else %}{{ url_for('login') }}{% endif %}">
-                <button class="btn btn-success">Get Started</button>
+                <button class="button">Get Started</button>
             </a>
         </div>
     </div>

@@ -24,10 +24,11 @@ def preview():
 @login_required
 def index():
     page = request.args.get('page', 1, type=int)
-    cards = Card.query.filter_by(payer=current_user).paginate(
+    cards = Card.query.filter_by(payer=current_user).order_by(Card.timestamp.desc()).paginate(
         page=page,
         per_page=app.config['CARDS_PER_PAGE'],
         error_out=False)
+    print(cards.items)
     next_url = url_for('index', page=cards.next_num) if cards.has_next else None
     prev_url = url_for('index', page=cards.prev_num) if cards.has_prev else None
     return render_template('index.html', cards=cards, next_url=next_url, prev_url=prev_url)
@@ -158,29 +159,29 @@ def confirm(token):
 @app.route('/graph', methods=['GET', 'POST'])
 @login_required
 def graph():
-    formd = ChooseMonthForm()
-    formc = CategoryForm()
-    if formd.validate_on_submit():
-        return redirect(url_for('graph_days', month=formd.month.data))
-    if formc.validate_on_submit():
-        return redirect(url_for('graph_cat', month=formc.month.data))
-    return render_template('graph.html', formd=formd, formc=formc)
+    form_day = ChooseMonthForm()
+    form_cat = CategoryForm()
+    if form_day.validate_on_submit():
+        return redirect(url_for('graph_days', month=form_day.month.data, year=form_day.year.data))
+    if form_cat.validate_on_submit():
+        return redirect(url_for('graph_cat', month=form_cat.month.data))
+    return render_template('graph.html', form_day=form_day, form_cat=form_cat)
 
 
-@app.route('/days_<month>', methods=['GET', 'POST'])
+@app.route('/days-<month>-<year>', methods=['GET', 'POST'])
 @login_required
-def graph_days(month):
+def graph_days(month, year):
     plot = Graph(current_user)
-    days, prices = plot.get_data_plot_days(int(month), 2019)
+    days, prices = plot.get_data_plot_days(int(month), year)
     return render_template('graph_days.html', days=days, prices=prices, month=calendar.month_name[int(month)])
 
 
-@app.route('/categories_<month>', methods=['GET', 'POST'])
+@app.route('/categories-<month>', methods=['GET', 'POST'])
 @login_required
 def graph_cat(month):
     plot = Graph(current_user)
-    cat, prices = plot.get_data_plot_cat(month)
-    return render_template('graph_categories.html', cat=cat, prices=prices)
+    cat, prices = plot.get_data_plot_cat(int(month))
+    return render_template('graph_categories.html', cat=cat, prices=prices, month=calendar.month_name[int(month)])
 
 
 @app.route('/stat', methods=['GET', 'POST'])

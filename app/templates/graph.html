@@ -2,36 +2,44 @@
 
 
 {% block app_content %}
-    <a href="#">Days</a>
+    <h2>Days</h2>
     <form action="" method="post">
-        {{ formd.hidden_tag() }}
+        {{ form_day.hidden_tag() }}
         <p>
-            {{ formd.month.label }}
-            {{ formd.month() }}
-            {% for error in formd.month.errors %}
+            {{ form_day.month.label }}
+            {{ form_day.month() }}
+            {% for error in form_day.month.errors %}
                 {{ error }}
             {% endfor %}
         </p>
         <p>
-            {{ formd.year.label }}
-            {{ formd.year() }}
-            {% for error in formd.year.errors %}
+            {{ form_day.year.label }}
+            {{ form_day.year() }}
+            {% for error in form_day.year.errors %}
                 {{ error }}
             {% endfor %}
         </p>
-        {{ formd.submit() }}
+        {{ form_day.submit() }}
     </form>
-    <a href="#">Category</a>
+
+    <h2>Category</h2>
     <form action="" method="post">
-        {{ formc.hidden_tag() }}
+        {{ form_cat.hidden_tag() }}
         <p>
-            {{ formc.month.label }}
-            {{ formc.month() }}
-            {% for error in formc.month.errors %}
+            {{ form_cat.month.label }}
+            {{ form_cat.month() }}
+            {% for error in form_cat.month.errors %}
                 {{ error }}
             {% endfor %}
         </p>
-        {{ formc.submit() }}
+{#        <p>#}
+{#            {{ form_cat.year.label }}#}
+{#            {{ form_cat.year() }}#}
+{#            {% for error in form_cat.year.errors %}#}
+{#                {{ error }}#}
+{#            {% endfor %}#}
+{#        </p>#}
+        {{ form_cat.submit() }}
     </form>
 {% endblock %}
 

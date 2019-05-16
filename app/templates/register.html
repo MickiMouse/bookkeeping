@@ -3,7 +3,7 @@
 
 {% block app_content %}
     <div class="d-flex justify-content-center">
-        <form action="" method="post" class="width-form shadow-lg p-3">
+        <form action="" method="post" class="style-form shadow-lg p-3">
             {{ form.hidden_tag() }}
             <h2>Sign up</h2>
             <div class="form-group">
@@ -37,7 +37,7 @@
     </div>
     <div class="d-flex justify-content-center" style="margin-top: 30px;">
         <div>
-            If you have already registered <a href="{{ url_for('login') }}"><button class="same-button">Sign in</button></a>
+            If you have already registered <a href="{{ url_for('login') }}"><button class="button">Sign in</button></a>
         </div>
     </div>
 {% endblock %}

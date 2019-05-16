@@ -1,5 +1,3 @@
-import datetime
-import calendar
 from app.models import Card
 
 
@@ -9,7 +7,6 @@ class Graph:
         self.cards = Card.query.filter_by(payer=user).all()
 
     def get_data_plot_days(self, month, year):
-        """List of all days"""
         data = {}
         for card in Card.query.filter_by(payer=self.user, month=month, year=year).all():
             if card.day not in data:

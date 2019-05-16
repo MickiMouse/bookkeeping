@@ -4,5 +4,6 @@
     </div>
     <div class="card-body text-center">
         <h5 class="card-title">{{ card.category }} - {{ card.price }}</h5>
+        <p class="card-text">{% if card.note %}{{ card.note }}{% endif %}</p>
     </div>
 </div>

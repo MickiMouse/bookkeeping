@@ -1,7 +1,7 @@
 from app.models import User
 from flask_wtf import FlaskForm
 from wtforms.fields import StringField, SubmitField, \
-    PasswordField, BooleanField, SelectField
+    PasswordField, BooleanField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
 
 
@@ -33,7 +33,7 @@ class RegisterForm(FlaskForm):
 class CreateCardForm(FlaskForm):
     price = StringField('Price', validators=[DataRequired()])
     category = SelectField('Category', validators=[DataRequired()])
-    note = StringField('Note')
+    note = TextAreaField('Note', validators=[Length(max=32)])
     submit = SubmitField('Create')
 
     def validate_price(self, price):
@@ -68,5 +68,7 @@ class CategoryForm(FlaskForm):
     month_choise = [('1', 'January'), ('2', 'February'), ('3', 'March'), ('4', 'April'),
                     ('5', 'May'), ('6', 'June'), ('7', 'July'), ('8', 'August'),
                     ('9', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December')]
+    # year_choices = [(2019, 2019)]
     month = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
-    submit = SubmitField('Plot')
+    # year = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Plot_cat')
