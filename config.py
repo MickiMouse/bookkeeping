@@ -15,4 +15,4 @@ class Config:
     MAIL_USERNAME = os.environ.get('MAIL_USERNAME')
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD')
     ADMINS = ['dpashnev175@gmail.com']
-    CARDS_PER_PAGE = 3
+    CARDS_PER_PAGE = 5

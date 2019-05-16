@@ -17,7 +17,7 @@ class RegisterForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired(), Length(min=8)])
     password2 = PasswordField('Repeat password', validators=[DataRequired(), EqualTo('password')])
-    submit = SubmitField('Register')
+    submit = SubmitField('Sign up')
 
     def validate_username(self, username):
         user = User.query.filter_by(username=username.data).first()
@@ -32,9 +32,8 @@ class RegisterForm(FlaskForm):
 
 class CreateCardForm(FlaskForm):
     price = StringField('Price', validators=[DataRequired()])
-    kind = SelectField('Kind of card', validators=[DataRequired()],
-                       choices=[('Expense', 'Expense'), ('Profit', 'Profit')])
-    category = StringField('Category', validators=[DataRequired()])
+    category = SelectField('Category', validators=[DataRequired()])
+    note = StringField('Note')
     submit = SubmitField('Create')
 
     def validate_price(self, price):
@@ -53,3 +52,21 @@ class ResetPassword(FlaskForm):
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField('Repeat password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Reset password')
+
+
+class ChooseMonthForm(FlaskForm):
+    month_choise = [('1', 'January'), ('2', 'February'), ('3', 'March'), ('4', 'April'),
+                    ('5', 'May'), ('6', 'June'), ('7', 'July'), ('8', 'August'),
+                    ('9', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December')]
+    year_choices = [(2019, 2019)]
+    month = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
+    year = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Plot')
+
+
+class CategoryForm(FlaskForm):
+    month_choise = [('1', 'January'), ('2', 'February'), ('3', 'March'), ('4', 'April'),
+                    ('5', 'May'), ('6', 'June'), ('7', 'July'), ('8', 'August'),
+                    ('9', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December')]
+    month = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
+    submit = SubmitField('Plot')

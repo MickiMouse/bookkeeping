@@ -1,42 +1,59 @@
-{% extends "bootstrap/base.html" %}
-
-
-{% block title %}Bookkeeping{% endblock %}
-
-
-{% block navbar %}
-    <nav class="navbar navbar-default">
-        <div class="container">
-            <div class="navbar-header">
-                <a class="navbar-brand" href="{{ url_for('index') }}">Bookkeeping</a>
-            </div>
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav">
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <title>Bookkeeping</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+              integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+        <link rel="stylesheet" href="static/css/style.css">
+    </head>
+    <body>
+        <nav class="navbar navbar-expand-lg navbar-dark" style="height: 80px; background-color: #2a2a2a">
+            <a class="navbar-brand" href="{{ url_for('preview') }}"><b>Bookkeeping</b></a>
+            <div class="collapse navbar-collapse justify-content-end">
+                <ul class="navbar-nav">
+                    <li class="mx-4"><a class="nav-link" href="{{ url_for('index') }}">Home</a></li>
+                    <li class="mx-4"><a class="nav-link" href="">About</a></li>
+                    <li class="mx-4"><a class="nav-link" href="">Contact us</a></li>
                     {% if current_user.is_active %}
-                        <li><a href="{{ url_for('table') }}">Table</a></li>
-                        <li><a href="{{ url_for('create_note') }}">Add note</a></li>
-                        <li><a href="{{ url_for('logout') }}">Log out</a></li>
+                    <li class="mx-4"><a class="nav-link" href="{{ url_for('logout') }}">Log out</a></li>
                     {% else %}
-                        <li><a href="{{ url_for('login') }}">Sign in</a></li>
-                        <li><a href="{{ url_for('register') }}">Sign up</a></li>
+                    <li class="mx-4"><a class="nav-link" href="{{ url_for('login') }}">Sign in</a></li>
+                    <li class="mx-4"><a class="nav-link" href="{{ url_for('register') }}">Sign up</a></li>
                     {% endif %}
                 </ul>
             </div>
+        </nav>
+        {% if current_user.is_active %}
+        <div class="burger-menu">
+            <a href="#" class="burger-menu__button">
+                <span class="burger-menu__lines"></span>
+            </a>
+            <nav class="burger-menu__nav">
+                <a href="{{ url_for('index') }}" class="burger-menu__link">{{ current_user.username }}</a>
+                <a href="{{ url_for('index') }}" class="burger-menu__link">Home</a>
+                <a href="{{ url_for('create_card') }}" class="burger-menu__link">Add card</a>
+                <a href="{{ url_for('graph') }}" class="burger-menu__link">Graphics</a>
+                <a href="{{ url_for('table') }}" class="burger-menu__link">Table</a>
+            </nav>
         </div>
-    </nav>
-{% endblock %}
-
-
-{% block content %}
-    <div class="container">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                {% for message in messages %}
-                    <div class="alert alert-info">{{ message }}</div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
-        {% block app_content %}{% endblock %}
-    </div>
-{% endblock %}
+        {% endif %}
+        <div class="container mt-3">
+            {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block app_content %}{% endblock %}
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+        <script src="static/js/burger.js"></script>
+        {% block scripts %}{% endblock %}
+    </body>
+</html>

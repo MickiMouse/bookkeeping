@@ -2,28 +2,24 @@
 
 
 {% block app_content %}
-    <h1 class="h1">Hello, {{ current_user.username }}</h1>
-    {% for card in cards.items %}
-        {% if card.kind == 'Profit' %}
-            <div>
-                <h3>{{ card.kind }}</h3>
-                <p>
-                    price - {{ card.price }}<br>
-                    received from - {{ card.category }}<br>
-                    date  - {{ card.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}<br>
-                </p>
-            </div>
-        {% else %}
-            <div>
-                <h3>{{ card.kind }}</h3>
-                <p>
-                    price - {{ card.price }}<br>
-                    spent on - {{ card.category }}<br>
-                    date  - {{ card.timestamp.strftime("%Y-%m-%d %H:%M:%S") }}<br>
-                </p>
-            </div>
-        {% endif %}
-    {% endfor %}
-    <a href="{{ prev_url }}"><button {% if prev_url is none %}disabled{% endif %}>&larr;</button></a>
-    <a href="{{ next_url }}"><button {% if next_url is none %}disabled{% endif %}>&rarr;</button></a>
+    <div class="d-flex justify-content-center">
+        <a href="{{ url_for('create_card') }}"><div class="btn btn-success">Add card</div></a>
+    </div>
+    <div class="card-deck my-4">
+        {% for card in cards.items %}
+            {% include '_card.html' %}
+        {% endfor %}
+    </div>
+    <div class="d-flex justify-content-center">
+        <a class="mx-1" href="{{ prev_url }}">
+            <button class="btn btn-success" type="button" {% if prev_url is none %}disabled{% endif %}>
+                &larr; Old cards
+            </button>
+        </a>
+        <a class="mx-1" href="{{ next_url }}">
+            <button class="btn btn-success" type="button" {% if next_url is none %}disabled{% endif %}>
+                New cards &rarr;
+            </button>
+        </a>
+    </div>
 {% endblock %}

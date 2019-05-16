@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+
+{% block app_content %}
+    <a href="#">Days</a>
+    <form action="" method="post">
+        {{ formd.hidden_tag() }}
+        <p>
+            {{ formd.month.label }}
+            {{ formd.month() }}
+            {% for error in formd.month.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ formd.year.label }}
+            {{ formd.year() }}
+            {% for error in formd.year.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        {{ formd.submit() }}
+    </form>
+    <a href="#">Category</a>
+    <form action="" method="post">
+        {{ formc.hidden_tag() }}
+        <p>
+            {{ formc.month.label }}
+            {{ formc.month() }}
+            {% for error in formc.month.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        {{ formc.submit() }}
+    </form>
+{% endblock %}
+
+{##}
+{#{% block scripts %}#}
+{#    {{ super() }}#}
+{#    <script>#}
+{#        let cat = {{ category|safe }};#}
+{#        let mon = {{ months|safe }};#}
+{#        let price_cat = {{ prices_cat }};#}
+{#        let price_mon = {{ prices_mon }};#}
+{#        let line = document.getElementById('graph_line').getContext('2d');#}
+{#        new Chart(line, {#}
+{#            type: 'line',#}
+{#            data: {#}
+{#                labels: mon,#}
+{#                datasets: [{#}
+{#                    label: 'Expense per month',#}
+{#                    data: price_mon,#}
+{#                    fill: false,#}
+{#                    borderColor: "#130bb0",#}
+{#                    lineTension: 0.1#}
+{#                }]#}
+{#            },#}
+{#            options: {#}
+{#                legend: {#}
+{#                    labels: {#}
+{#                        fontColor: 'black'#}
+{#                    }#}
+{#                },#}
+{#                scales: {#}
+{#                    yAxes: [{#}
+{#                        ticks: {#}
+{#                            fontColor: 'black',#}
+{#                            beginAtZero:true#}
+{#                        }#}
+{#                    }],#}
+{#                    xAxes: [{#}
+{#                        ticks: {#}
+{#                            fontColor: 'black'#}
+{#                        }#}
+{#                    }]#}
+{#                }#}
+{#            }#}
+{#        });#}
+{##}
+{#        let bar = document.getElementById('graph_bars').getContext('2d');#}
+{#        new Chart(bar, {#}
+{#            type: 'bar',#}
+{#            data: {#}
+{#                labels: cat,#}
+{#                datasets: [{#}
+{#                    label: 'Categories',#}
+{#                    data: price_cat,#}
+{#                    fill: false,#}
+{#                    backgroundColor: "rgba(255,82,2, 0.8)",#}
+{#                    borderColor: "rgba(255,5,7,0.8)",#}
+{#                    borderWidth: 2,#}
+{#                    hoverBackgroundColor: "rgba(255,82,2,1)",#}
+{#                    hoverBorderColor: "rgba(255,5,7,1)",#}
+{#                    lineTension: 0.1#}
+{#                }]#}
+{#            },#}
+{#            options: {#}
+{#                legend: {#}
+{#                    labels: {#}
+{#                        fontColor: "black"#}
+{#                    }#}
+{#                },#}
+{#                scales: {#}
+{#                    yAxes: [{#}
+{#                        ticks: {#}
+{#                            fontColor: "black",#}
+{#                            beginAtZero: true#}
+{#                        }#}
+{#                    }],#}
+{#                    xAxes: [{#}
+{#                        ticks: {#}
+{#                            fontColor: "black"#}
+{#                        }#}
+{#                    }]#}
+{#                }#}
+{#            }#}
+{#        });#}
+{#    </script>#}
+{#{% endblock %}#}

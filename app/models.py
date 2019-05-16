@@ -40,14 +40,18 @@ class User(UserMixin, db.Model):
 
 class Card(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    price = db.Column(db.Float)
-    kind = db.Column(db.String(10))
-    category = db.Column(db.String(16))
-    timestamp = db.Column(db.DateTime, default=datetime.utcnow())
+    price = db.Column(db.Float, index=True)
+    category = db.Column(db.String(16), index=True)
+    note = db.Column(db.String(128), index=True)
+    year = db.Column(db.Integer, default=datetime.utcnow().date().year)
+    month = db.Column(db.Integer, default=datetime.utcnow().date().month)
+    day = db.Column(db.Integer, default=datetime.utcnow().date().day)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
     def __repr__(self):
-        return '<Card user_id-{}, price-{}>'.format(self.user_id, self.price)
+        return '<{}, {}, {}, {}, {}>'.format(self.id, self.price,
+                                             self.category, self.note,
+                                             self.user_id)
 
 
 @login.user_loader

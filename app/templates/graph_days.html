@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+{% block app_content %}
+
+    <canvas id="graph_line"></canvas>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        let days = {{ days|safe }};
+        let price = {{ prices|safe }};
+        let line = document.getElementById('graph_line').getContext('2d');
+        new Chart(line, {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [{
+                    label: 'Expense per month',
+                    data: price,
+                    fill: false,
+                    borderColor: "#130bb0",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Your expenses for {{ month }}'
+                },
+                legend: {
+                    labels: {
+                        fontColor: 'black'
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: 'black',
+                            beginAtZero:true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+{% endblock %}

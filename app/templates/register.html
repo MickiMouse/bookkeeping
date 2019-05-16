@@ -1,11 +1,43 @@
 {% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf %}
+
 
 {% block app_content %}
-    <h1>Sign up</h1>
-    <div class="row">
-        <div class="col-md-4">
-            {{ wtf.quick_form(form) }}
+    <div class="d-flex justify-content-center">
+        <form action="" method="post" class="width-form shadow-lg p-3">
+            {{ form.hidden_tag() }}
+            <h2>Sign up</h2>
+            <div class="form-group">
+                {{ form.username(class='form-control', placeholder='Username') }}
+                {% for error in form.username.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.email(class='form-control', placeholder='Email') }}
+                {% for error in form.email.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.password(class='form-control', placeholder='Password') }}
+                {% for error in form.password.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            <div class="form-group">
+                {{ form.password2(class='form-control', placeholder='Repeat password') }}
+                {% for error in form.password2.errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            <div class="d-flex justify-content-center">
+                {{ form.submit(class='sign') }}
+            </div>
+        </form>
+    </div>
+    <div class="d-flex justify-content-center" style="margin-top: 30px;">
+        <div>
+            If you have already registered <a href="{{ url_for('login') }}"><button class="same-button">Sign in</button></a>
         </div>
     </div>
 {% endblock %}

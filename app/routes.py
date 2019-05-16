@@ -1,12 +1,14 @@
+import calendar
 import itsdangerous
 from app import app, db
-from app.forms import LoginForm, RegisterForm, CreateCardForm, ResetPasswordRequest, ResetPassword
+from app.forms import *
 from app.models import User, Card
 from app.email import send_password_reset, send_request_confirm
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import current_user, login_required, logout_user, login_user
 from werkzeug.urls import url_parse
 from datetime import datetime
+from app.graph import Graph
 
 
 serializer = itsdangerous.URLSafeSerializer(secret_key=app.config['SECRET_KEY'])
@@ -22,15 +24,10 @@ def preview():
 @login_required
 def index():
     page = request.args.get('page', 1, type=int)
-    cards = Card.query.filter_by(
-        payer=current_user
-    ).order_by(
-        Card.timestamp.desc()
-    ).paginate(
+    cards = Card.query.filter_by(payer=current_user).paginate(
         page=page,
         per_page=app.config['CARDS_PER_PAGE'],
-        error_out=False
-    )
+        error_out=False)
     next_url = url_for('index', page=cards.next_num) if cards.has_next else None
     prev_url = url_for('index', page=cards.prev_num) if cards.has_prev else None
     return render_template('index.html', cards=cards, next_url=next_url, prev_url=prev_url)
@@ -38,20 +35,25 @@ def index():
 
 @app.route('/note', methods=['GET', 'POST'])
 @login_required
-def create_note():
+def create_card():
     form = CreateCardForm()
-    entries = ['Housing', 'Utilities', 'Food', 'Transport', 'Services', 'Clothes', 'Household',
-               'Medicines', 'Credit', 'Technique', 'Entertainment', 'Education', 'Presents']
+    entries = [('Housing', 'Housing'), ('Utilities', 'Utilities'), ('Food', 'Food'), ('Transport', 'Transport'),
+               ('Services', 'Services'), ('Clothes', 'Clothes'), ('Household', 'Household'),
+               ('Medicines', 'Medicines'), ('Credit', 'Credit'), ('Technique', 'Technique'),
+               ('Entertainment', 'Entertainment'), ('Education', 'Education'), ('Other', 'Other')]
+    form.category.choices = entries
     if form.validate_on_submit():
-        note = Card(price=float(form.price.data),
-                    kind=form.kind.data,
+        card = Card(price=float(form.price.data),
                     category=form.category.data,
+                    note=form.note.data,
                     payer=current_user,
-                    timestamp=datetime.utcnow())
-        db.session.add(note)
+                    year=datetime.utcnow().date().year,
+                    month=datetime.utcnow().date().month,
+                    day=datetime.utcnow().date().day)
+        db.session.add(card)
         db.session.commit()
         return redirect(url_for('index'))
-    return render_template('make_note.html', form=form, entries=entries)
+    return render_template('create_card.html', form=form)
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -140,7 +142,6 @@ def table():
 def confirm(token):
     if current_user.is_authenticated:
         return redirect(url_for('index'))
-
     try:
         user_dict = serializer.loads(token, salt=ACTIVATION_SALT)
         user = User(email=user_dict['email'],
@@ -152,3 +153,37 @@ def confirm(token):
     except itsdangerous.BadSignature:
         return redirect(url_for('index'))
     return redirect(url_for('login'))
+
+
+@app.route('/graph', methods=['GET', 'POST'])
+@login_required
+def graph():
+    formd = ChooseMonthForm()
+    formc = CategoryForm()
+    if formd.validate_on_submit():
+        return redirect(url_for('graph_days', month=formd.month.data))
+    if formc.validate_on_submit():
+        return redirect(url_for('graph_cat', month=formc.month.data))
+    return render_template('graph.html', formd=formd, formc=formc)
+
+
+@app.route('/days_<month>', methods=['GET', 'POST'])
+@login_required
+def graph_days(month):
+    plot = Graph(current_user)
+    days, prices = plot.get_data_plot_days(int(month), 2019)
+    return render_template('graph_days.html', days=days, prices=prices, month=calendar.month_name[int(month)])
+
+
+@app.route('/categories_<month>', methods=['GET', 'POST'])
+@login_required
+def graph_cat(month):
+    plot = Graph(current_user)
+    cat, prices = plot.get_data_plot_cat(month)
+    return render_template('graph_categories.html', cat=cat, prices=prices)
+
+
+@app.route('/stat', methods=['GET', 'POST'])
+@login_required
+def stat():
+    pass
