@@ -17,7 +17,7 @@
                     <li class="mx-4"><a class="nav-link" href="">About</a></li>
                     <li class="mx-4"><a class="nav-link" href="">Contact us</a></li>
                     {% if current_user.is_active %}
-                    <li class="mx-4"><a href="{{ url_for('logout') }}"><button class="button">Log out</button></a></li>
+                    <li class="mx-4"><a href="{{ url_for('logout') }}"><button class="light-button">Log out</button></a></li>
                     {% else %}
                     <li class="mx-4"><a class="nav-link" href="{{ url_for('login') }}">Sign in</a></li>
                     <li class="mx-4"><a class="nav-link" href="{{ url_for('register') }}">Sign up</a></li>

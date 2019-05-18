@@ -5,27 +5,43 @@ class Graph:
     def __init__(self, user):
         self.user = user
         self.cards = Card.query.filter_by(payer=user).all()
+        self.data = {}
 
-    def get_data_plot_days(self, month, year):
-        data = {}
+    def transform_data(self, idx_key):
+        sorted_list = list(self.data.items())
+        sorted_list.sort(key=lambda x: x[idx_key])
+        first_array = [d[0] for d in sorted_list]
+        second_array = [d[1] for d in sorted_list]
+        return first_array, second_array
+
+    def days(self, month, year):
         for card in Card.query.filter_by(payer=self.user, month=month, year=year).all():
-            if card.day not in data:
-                data[card.day] = card.price
+            if card.day not in self.data:
+                self.data[card.day] = card.price
             else:
-                data[card.day] += card.price
-        sorted_list = list(data.items())
-        sorted_list.sort(key=lambda x: x[0])
-        days = [d[0] for d in sorted_list]
-        prices = [d[1] for d in sorted_list]
-        return days, prices
+                self.data[card.day] += card.price
+        return self.transform_data(0)
 
-    def get_data_plot_cat(self, month):
-        data = {}
-        for card in Card.query.filter_by(payer=self.user, month=month).all():
-            if card.category not in data:
-                data[card.category] = card.price
+    def month(self, year):
+        for card in Card.query.filter_by(payer=self.user, year=year).all():
+            if card.month not in self.data:
+                self.data[card.month] = card.price
             else:
-                data[card.category] += card.price
-        categories = [d[0] for d in data.items()]
-        prices = [d[1] for d in data.items()]
-        return categories, prices
+                self.data[card.month] += card.price
+        return self.transform_data(0)
+
+    def cat(self, month, year):
+        for card in Card.query.filter_by(payer=self.user, month=month, year=year).all():
+            if card.category not in self.data:
+                self.data[card.category] = card.price
+            else:
+                self.data[card.category] += card.price
+        return self.transform_data(1)
+
+    def cat_per_month(self, category, year):
+        for card in Card.query.filter_by(payer=self.user, category=category, year=year).all():
+            if card.month not in self.data:
+                self.data[card.month] = card.price
+            else:
+                self.data[card.month] += card.price
+        return self.transform_data(0)

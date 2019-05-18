@@ -31,13 +31,13 @@
                 {% endfor %}
             </div>
             <div class="d-flex justify-content-center">
-                {{ form.submit(class='sign') }}
+                {{ form.submit(class='dark-button') }}
             </div>
         </form>
     </div>
     <div class="d-flex justify-content-center" style="margin-top: 30px;">
         <div>
-            If you have already registered <a href="{{ url_for('login') }}"><button class="button">Sign in</button></a>
+            If you have already registered <a href="{{ url_for('login') }}"><button class="light-button">Sign in</button></a>
         </div>
     </div>
 {% endblock %}

@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-{% import 'bootstrap/wtf.html' as wtf %}
 
 
 {% block app_content %}
@@ -20,7 +19,7 @@
             <div class="form-group">
                 {{ form.note(class="form-control", placeholder='Note', maxlength="32") }}
             </div>
-            {{ form.submit(class="same-button w-100") }}
+            {{ form.submit(class="light-button w-100") }}
         </form>
     </div>
 {% endblock %}

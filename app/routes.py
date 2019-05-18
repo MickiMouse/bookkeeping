@@ -15,6 +15,11 @@ serializer = itsdangerous.URLSafeSerializer(secret_key=app.config['SECRET_KEY'])
 ACTIVATION_SALT = 'activate-salt'
 
 
+def _calendar_month(args):
+    args = [calendar.month_name[i] for i in args]
+    return args
+
+
 @app.route('/')
 def preview():
     return render_template('preview.html')
@@ -28,21 +33,15 @@ def index():
         page=page,
         per_page=app.config['CARDS_PER_PAGE'],
         error_out=False)
-    print(cards.items)
     next_url = url_for('index', page=cards.next_num) if cards.has_next else None
     prev_url = url_for('index', page=cards.prev_num) if cards.has_prev else None
     return render_template('index.html', cards=cards, next_url=next_url, prev_url=prev_url)
 
 
-@app.route('/note', methods=['GET', 'POST'])
+@app.route('/add_card', methods=['GET', 'POST'])
 @login_required
 def create_card():
     form = CreateCardForm()
-    entries = [('Housing', 'Housing'), ('Utilities', 'Utilities'), ('Food', 'Food'), ('Transport', 'Transport'),
-               ('Services', 'Services'), ('Clothes', 'Clothes'), ('Household', 'Household'),
-               ('Medicines', 'Medicines'), ('Credit', 'Credit'), ('Technique', 'Technique'),
-               ('Entertainment', 'Entertainment'), ('Education', 'Education'), ('Other', 'Other')]
-    form.category.choices = entries
     if form.validate_on_submit():
         card = Card(price=float(form.price.data),
                     category=form.category.data,
@@ -159,32 +158,51 @@ def confirm(token):
 @app.route('/graph', methods=['GET', 'POST'])
 @login_required
 def graph():
-    form_day = ChooseMonthForm()
+    form_day = MonthForm()
     form_cat = CategoryForm()
+    form_mon = CategoryInMonthForm()
+    form_mon_line = LineMonthForm()
     if form_day.validate_on_submit():
-        return redirect(url_for('graph_days', month=form_day.month.data, year=form_day.year.data))
+        return redirect(url_for('graph_days', month=form_day.month1.data, year=form_day.year1.data))
     if form_cat.validate_on_submit():
-        return redirect(url_for('graph_cat', month=form_cat.month.data))
-    return render_template('graph.html', form_day=form_day, form_cat=form_cat)
+        return redirect(url_for('graph_cat', month=form_cat.month2.data, year=form_cat.year2.data))
+    if form_mon.validate_on_submit():
+        return redirect(url_for('graph_category', category=form_mon.category.data, year=form_mon.year3.data))
+    if form_mon_line.validate_on_submit():
+        return redirect(url_for('graph_month', year=form_mon_line.year4.data))
+    return render_template('graph.html', form_day=form_day, form_cat=form_cat, form_mon=form_mon,
+                           form_mon_line=form_mon_line)
 
 
-@app.route('/days-<month>-<year>', methods=['GET', 'POST'])
+@app.route('/days-<month>-<year>', methods=['GET'])
 @login_required
 def graph_days(month, year):
     plot = Graph(current_user)
-    days, prices = plot.get_data_plot_days(int(month), year)
+    days, prices = plot.days(int(month), year)
     return render_template('graph_days.html', days=days, prices=prices, month=calendar.month_name[int(month)])
 
 
-@app.route('/categories-<month>', methods=['GET', 'POST'])
+@app.route('/categories-<month>-<year>', methods=['GET'])
 @login_required
-def graph_cat(month):
+def graph_cat(month, year):
     plot = Graph(current_user)
-    cat, prices = plot.get_data_plot_cat(int(month))
+    cat, prices = plot.cat(int(month), year)
     return render_template('graph_categories.html', cat=cat, prices=prices, month=calendar.month_name[int(month)])
 
 
-@app.route('/stat', methods=['GET', 'POST'])
+@app.route('/category-<category>-<year>', methods=['GET'])
 @login_required
-def stat():
-    pass
+def graph_category(category, year):
+    plot = Graph(current_user)
+    month, prices = plot.cat_per_month(category, year)
+    month = _calendar_month(month)
+    return render_template('cat_per_month.html', month=month, prices=prices, category=category)
+
+
+@app.route('/month-<year>', methods=['GET'])
+@login_required
+def graph_month(year):
+    plot = Graph(current_user)
+    month, prices = plot.month(year)
+    month = _calendar_month(month)
+    return render_template('graph_month.html', month=month, prices=prices)

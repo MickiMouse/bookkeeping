@@ -6,40 +6,71 @@
     <form action="" method="post">
         {{ form_day.hidden_tag() }}
         <p>
-            {{ form_day.month.label }}
-            {{ form_day.month() }}
-            {% for error in form_day.month.errors %}
+            {{ form_day.month1.label }}
+            {{ form_day.month1() }}
+            {% for error in form_day.month1.errors %}
                 {{ error }}
             {% endfor %}
         </p>
         <p>
-            {{ form_day.year.label }}
-            {{ form_day.year() }}
-            {% for error in form_day.year.errors %}
+            {{ form_day.year1.label }}
+            {{ form_day.year1() }}
+            {% for error in form_day.year1.errors %}
                 {{ error }}
             {% endfor %}
         </p>
         {{ form_day.submit() }}
     </form>
 
+    <form action="" method="post">
+        {{ form_mon_line.hidden_tag() }}
+        <p>
+            {{ form_mon_line.year4.label }}
+            {{ form_mon_line.year4() }}
+            {% for error in form_mon_line.year4.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        {{ form_mon_line.submit() }}
+    </form>
+
     <h2>Category</h2>
     <form action="" method="post">
         {{ form_cat.hidden_tag() }}
         <p>
-            {{ form_cat.month.label }}
-            {{ form_cat.month() }}
-            {% for error in form_cat.month.errors %}
+            {{ form_cat.month2.label }}
+            {{ form_cat.month2() }}
+            {% for error in form_cat.month2.errors %}
                 {{ error }}
             {% endfor %}
         </p>
-{#        <p>#}
-{#            {{ form_cat.year.label }}#}
-{#            {{ form_cat.year() }}#}
-{#            {% for error in form_cat.year.errors %}#}
-{#                {{ error }}#}
-{#            {% endfor %}#}
-{#        </p>#}
+        <p>
+            {{ form_cat.year2.label }}
+            {{ form_cat.year2() }}
+            {% for error in form_cat.year2.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
         {{ form_cat.submit() }}
+    </form>
+
+    <form action="" method="post">
+        {{ form_mon.hidden_tag() }}
+        <p>
+            {{ form_mon.category.label }}
+            {{ form_mon.category() }}
+            {% for error in form_mon.category.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        <p>
+            {{ form_mon.year3.label }}
+            {{ form_mon.year3() }}
+            {% for error in form_mon.year3.errors %}
+                {{ error }}
+            {% endfor %}
+        </p>
+        {{ form_mon.submit() }}
     </form>
 {% endblock %}
 

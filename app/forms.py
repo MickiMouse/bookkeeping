@@ -4,6 +4,16 @@ from wtforms.fields import StringField, SubmitField, \
     PasswordField, BooleanField, SelectField, TextAreaField
 from wtforms.validators import DataRequired, Email, EqualTo, ValidationError, Length
 
+year_choices = [(2019, 2019)]
+month_choise = [('1', 'January'), ('2', 'February'), ('3', 'March'), ('4', 'April'),
+                ('5', 'May'), ('6', 'June'), ('7', 'July'), ('8', 'August'),
+                ('9', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December')]
+
+entries = [('Housing', 'Housing'), ('Utilities', 'Utilities'), ('Food', 'Food'), ('Transport', 'Transport'),
+           ('Services', 'Services'), ('Clothes', 'Clothes'), ('Household', 'Household'),
+           ('Medicines', 'Medicines'), ('Credit', 'Credit'), ('Technique', 'Technique'),
+           ('Entertainment', 'Entertainment'), ('Education', 'Education'), ('Other', 'Other')]
+
 
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), Email()])
@@ -32,7 +42,7 @@ class RegisterForm(FlaskForm):
 
 class CreateCardForm(FlaskForm):
     price = StringField('Price', validators=[DataRequired()])
-    category = SelectField('Category', validators=[DataRequired()])
+    category = SelectField('Category', choices=entries, validators=[DataRequired()])
     note = TextAreaField('Note', validators=[Length(max=32)])
     submit = SubmitField('Create')
 
@@ -54,21 +64,24 @@ class ResetPassword(FlaskForm):
     submit = SubmitField('Reset password')
 
 
-class ChooseMonthForm(FlaskForm):
-    month_choise = [('1', 'January'), ('2', 'February'), ('3', 'March'), ('4', 'April'),
-                    ('5', 'May'), ('6', 'June'), ('7', 'July'), ('8', 'August'),
-                    ('9', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December')]
-    year_choices = [(2019, 2019)]
-    month = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
-    year = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
-    submit = SubmitField('Plot')
+class MonthForm(FlaskForm):
+    month1 = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
+    year1 = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Show')
 
 
 class CategoryForm(FlaskForm):
-    month_choise = [('1', 'January'), ('2', 'February'), ('3', 'March'), ('4', 'April'),
-                    ('5', 'May'), ('6', 'June'), ('7', 'July'), ('8', 'August'),
-                    ('9', 'September'), ('10', 'October'), ('11', 'November'), ('12', 'December')]
-    # year_choices = [(2019, 2019)]
-    month = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
-    # year = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
-    submit = SubmitField('Plot_cat')
+    month2 = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
+    year2 = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Show')
+
+
+class CategoryInMonthForm(FlaskForm):
+    category = SelectField('Category', choices=entries, validators=[DataRequired()])
+    year3 = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Show')
+
+
+class LineMonthForm(FlaskForm):
+    year4 = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Show')
