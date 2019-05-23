@@ -3,7 +3,7 @@
 
 {% block app_content %}
     <div class="d-flex justify-content-center">
-        <form method="post" class="style-form p-3 rounded shadow-lg">
+        <form method="post" class="style-form p-3 rounded">
             <h2>Add card</h2>
             {{ form.hidden_tag() }}
             <div class="form-group">
@@ -19,7 +19,7 @@
             <div class="form-group">
                 {{ form.note(class="form-control", placeholder='Note', maxlength="32") }}
             </div>
-            {{ form.submit(class="light-button w-100") }}
+            {{ form.submit(class="dark-button w-100") }}
         </form>
     </div>
 {% endblock %}

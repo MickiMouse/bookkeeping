@@ -2,24 +2,50 @@
 
 
 {% block app_content %}
-    <div class="d-flex justify-content-center">
-        <a href="{{ url_for('create_card') }}"><button class="light-button">Add card</button></a>
-    </div>
-    <div class="card-deck my-4">
-        {% for card in cards.items %}
-            {% include '_card.html' %}
-        {% endfor %}
-    </div>
-    <div class="d-flex justify-content-center">
-        <a class="mx-1" href="{{ prev_url }}">
-            <button class="dark-button" type="button" {% if prev_url is none %}disabled{% endif %}>
-                ❮
-            </button>
-        </a>
-        <a class="mx-1" href="{{ next_url }}">
-            <button class="dark-button" type="button" {% if next_url is none %}disabled{% endif %}>
-                ❯
-            </button>
-        </a>
-    </div>
+{#    <div class="d-flex justify-content-center">#}
+{#        <a href="{{ url_for('create_card') }}"><button class="light-button">Add card</button></a>#}
+{#    </div>#}
+{#    <div class="card-deck my-4">#}
+{#        {% for card in cards.items %}#}
+{#            {% include '_card.html' %}#}
+{#        {% endfor %}#}
+{#    </div>#}
+{#    <div class="d-flex justify-content-center">#}
+{#        <a class="mx-1" href="{{ prev_url }}">#}
+{#            <button class="dark-button" type="button" {% if prev_url is none %}disabled{% endif %}>#}
+{#                ❮#}
+{#            </button>#}
+{#        </a>#}
+{#        <a class="mx-1" href="{{ next_url }}">#}
+{#            <button class="dark-button" type="button" {% if next_url is none %}disabled{% endif %}>#}
+{#                ❯#}
+{#            </button>#}
+{#        </a>#}
+{#    </div>#}
+    <canvas id="pieAllCategories"></canvas>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        let categories = {{ categories|safe }};
+        let expenses = {{ expenses|safe }}
+        new Chart(document.getElementById("pieAllCategories"), {
+            type: 'pie',
+            data: {
+                labels: categories,
+                datasets: [{
+                    label: "",
+                    {#backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],#}
+                    data: expenses
+                }]
+            },
+            options: {
+                title: {
+                    display: true,
+                    text: 'Expenses on categories'
+                }
+            }
+        });
+    </script>
 {% endblock %}

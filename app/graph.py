@@ -53,3 +53,17 @@ class Graph:
             else:
                 self.data[card.day] += card.price
         return self.transform_data(0)
+
+    def get_all_categories(self):
+        categories, expenses = [], []
+        for card in Card.query.filter_by(payer=self.user):
+            if card.category not in self.data:
+                self.data[card.category] = card.price
+            else:
+                self.data[card.category] += card.price
+
+        for elem in list(self.data.items()):
+            categories.append(elem[0])
+            expenses.append(elem[1])
+
+        return categories, expenses

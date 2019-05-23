@@ -1,6 +1,7 @@
 import jwt
 from time import time
-from app import app, db, login
+from app import db, login
+from flask import current_app
 from flask_login import UserMixin
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -24,12 +25,12 @@ class User(UserMixin, db.Model):
 
     def create_token(self, exp=600):
         return jwt.encode({'reset_password': self.id, 'exp': time() + exp},
-                          key=app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
+                          key=current_app.config['SECRET_KEY'], algorithm='HS256').decode('utf-8')
 
     @staticmethod
     def verify_token(token):
         try:
-            id_ = jwt.decode(token, key=app.config['SECRET_KEY'], algorithms='HS256')['reset_password']
+            id_ = jwt.decode(token, key=current_app.config['SECRET_KEY'], algorithms='HS256')['reset_password']
         except jwt.InvalidTokenError:
             return
         return User.query.get(id_)

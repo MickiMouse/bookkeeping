@@ -7,7 +7,7 @@
             <h1>
                 The application was created to control your expenses
             </h1>
-            <a href="{% if current_user.is_active %}{{ url_for('create_card') }}{% else %}{{ url_for('login') }}{% endif %}">
+            <a href="{% if current_user.is_active %}{{ url_for('main.create_card') }}{% else %}{{ url_for('auth.login') }}{% endif %}">
                 <button class="light-button">Get Started</button>
             </a>
         </div>
