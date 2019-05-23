@@ -9,26 +9,26 @@
             <div class="form-group">
                 {{ form.email(class='form-control', placeholder='Email') }}
                 {% for error in form.email.errors %}
-                    {{ error }}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.password(class='form-control', placeholder='Password') }}
                 {% for error in form.password.errors %}
-                    {{ error }}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
             </div>
             <div class="form-group text-center">
                 <a href="{{ url_for('reset_password_request') }}">Forgot your password?</a>
             </div>
             <div class="d-flex justify-content-center">
-                {{ form.submit(class='sign') }}
+                {{ form.submit(class='dark-button') }}
             </div>
         </form>
     </div>
     <div class="d-flex justify-content-center" style="margin-top: 30px;">
         <div>
-            New user? Click to sign up, it's fast and free <a href="{{ url_for('register') }}"><button class="button">Sign up</button></a>
+            New user? Click to sign up, it's fast and free <a href="{{ url_for('register') }}"><button class="light-button">Sign up</button></a>
         </div>
     </div>
 {% endblock %}

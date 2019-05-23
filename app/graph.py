@@ -14,8 +14,8 @@ class Graph:
         second_array = [d[1] for d in sorted_list]
         return first_array, second_array
 
-    def days(self, month, year):
-        for card in Card.query.filter_by(payer=self.user, month=month, year=year).all():
+    def days(self, **kwargs):
+        for card in Card.query.filter_by(**kwargs).all():
             if card.day not in self.data:
                 self.data[card.day] = card.price
             else:
@@ -30,7 +30,7 @@ class Graph:
                 self.data[card.month] += card.price
         return self.transform_data(0)
 
-    def cat(self, month, year):
+    def categories(self, month, year):
         for card in Card.query.filter_by(payer=self.user, month=month, year=year).all():
             if card.category not in self.data:
                 self.data[card.category] = card.price
@@ -38,10 +38,18 @@ class Graph:
                 self.data[card.category] += card.price
         return self.transform_data(1)
 
-    def cat_per_month(self, category, year):
+    def category_per_month(self, category, year):
         for card in Card.query.filter_by(payer=self.user, category=category, year=year).all():
             if card.month not in self.data:
                 self.data[card.month] = card.price
             else:
                 self.data[card.month] += card.price
+        return self.transform_data(0)
+
+    def category_per_day(self, category, month, year):
+        for card in Card.query.filter_by(payer=self.user, category=category, month=month, year=year).all():
+            if card.day not in self.data:
+                self.data[card.day] = card.price
+            else:
+                self.data[card.day] += card.price
         return self.transform_data(0)

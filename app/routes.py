@@ -16,8 +16,7 @@ ACTIVATION_SALT = 'activate-salt'
 
 
 def _calendar_month(args):
-    args = [calendar.month_name[i] for i in args]
-    return args
+    return [calendar.month_name[i] for i in args]
 
 
 @app.route('/')
@@ -158,51 +157,78 @@ def confirm(token):
 @app.route('/graph', methods=['GET', 'POST'])
 @login_required
 def graph():
-    form_day = MonthForm()
-    form_cat = CategoryForm()
-    form_mon = CategoryInMonthForm()
-    form_mon_line = LineMonthForm()
-    if form_day.validate_on_submit():
-        return redirect(url_for('graph_days', month=form_day.month1.data, year=form_day.year1.data))
-    if form_cat.validate_on_submit():
-        return redirect(url_for('graph_cat', month=form_cat.month2.data, year=form_cat.year2.data))
-    if form_mon.validate_on_submit():
-        return redirect(url_for('graph_category', category=form_mon.category.data, year=form_mon.year3.data))
-    if form_mon_line.validate_on_submit():
-        return redirect(url_for('graph_month', year=form_mon_line.year4.data))
-    return render_template('graph.html', form_day=form_day, form_cat=form_cat, form_mon=form_mon,
-                           form_mon_line=form_mon_line)
+    forms = [DaysLineForm(), MonthCategoryForm(), CategoryForm(), MonthLineForm(), CategoryMonthForm()]
+
+    forms_dict = {
+        forms[0]: ('graph_days_line', {
+            'month': forms[0].month_days.data,
+            'year': forms[0].year_days.data
+        }),
+        forms[1]: ('graph_category_bar', {
+            'month': forms[1].month_category.data,
+            'year': forms[1].year_category.data
+        }),
+        forms[2]: ('graph_month_hbar', {
+            'category': forms[2].category.data,
+            'year': forms[2].year.data
+        }),
+        forms[3]: ('graph_month_line', {
+            'year': forms[3].year_line.data
+        }),
+        forms[4]: ('graph_category_month', {
+            'category': forms[4].category.data,
+            'month': forms[4].month.data,
+            'year': forms[4].year_category.data
+        })
+    }
+
+    for form in list(forms_dict.keys()):
+        if form.validate_on_submit():
+            return redirect(url_for(forms_dict[form][0], **forms_dict[form][1]))
+
+    return render_template('graph.html',
+                           form1=forms[0], form2=forms[1], form3=forms[2],
+                           form4=forms[3], form5=forms[4])
 
 
-@app.route('/days-<month>-<year>', methods=['GET'])
+@app.route('/days/<month>/<year>', methods=['GET'])
 @login_required
-def graph_days(month, year):
-    plot = Graph(current_user)
-    days, prices = plot.days(int(month), year)
-    return render_template('graph_days.html', days=days, prices=prices, month=calendar.month_name[int(month)])
+def graph_days_line(month, year):
+    chart = Graph(current_user)
+    filter_dict = {'month': int(month), 'year': year}
+    days, prices = chart.days(**filter_dict)
+    return render_template('graph_days_line.html', days=days, prices=prices, month=_calendar_month([int(month)]))
 
 
-@app.route('/categories-<month>-<year>', methods=['GET'])
+@app.route('/month/<year>', methods=['GET'])
 @login_required
-def graph_cat(month, year):
-    plot = Graph(current_user)
-    cat, prices = plot.cat(int(month), year)
-    return render_template('graph_categories.html', cat=cat, prices=prices, month=calendar.month_name[int(month)])
-
-
-@app.route('/category-<category>-<year>', methods=['GET'])
-@login_required
-def graph_category(category, year):
-    plot = Graph(current_user)
-    month, prices = plot.cat_per_month(category, year)
+def graph_month_line(year):
+    chart = Graph(current_user)
+    month, prices = chart.month(year)
     month = _calendar_month(month)
-    return render_template('cat_per_month.html', month=month, prices=prices, category=category)
+    return render_template('graph_month_line.html', month=month, prices=prices)
 
 
-@app.route('/month-<year>', methods=['GET'])
+@app.route('/categories/<month>/<year>', methods=['GET'])
 @login_required
-def graph_month(year):
-    plot = Graph(current_user)
-    month, prices = plot.month(year)
+def graph_category_bar(month, year):
+    chart = Graph(current_user)
+    categories, prices = chart.categories(int(month), year)
+    return render_template('graph_categories_bar.html', cat=categories, prices=prices, month=_calendar_month([int(month)]))
+
+
+@app.route('/category/<category>/<year>', methods=['GET'])
+@login_required
+def graph_month_hbar(category, year):
+    chart = Graph(current_user)
+    month, prices = chart.category_per_month(category, year)
     month = _calendar_month(month)
-    return render_template('graph_month.html', month=month, prices=prices)
+    return render_template('graph_categories_hbar.html', month=month, prices=prices, category=category)
+
+
+@app.route('/<category>/<month>/<year>', methods=['GET'])
+def graph_category_month(category, month, year):
+    chart = Graph(current_user)
+    filter_dict = {'category': category, 'month': month, 'year': year}
+    days, prices = chart.category_per_day(**filter_dict)
+    return render_template('graph_category_per_day.html', days=days, prices=prices, category=category)

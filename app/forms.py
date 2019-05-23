@@ -64,24 +64,31 @@ class ResetPassword(FlaskForm):
     submit = SubmitField('Reset password')
 
 
-class MonthForm(FlaskForm):
-    month1 = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
-    year1 = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+class DaysLineForm(FlaskForm):
+    month_days = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
+    year_days = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Show')
+
+
+class MonthCategoryForm(FlaskForm):
+    month_category = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
+    year_category = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
     submit = SubmitField('Show')
 
 
 class CategoryForm(FlaskForm):
-    month2 = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
-    year2 = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
-    submit = SubmitField('Show')
-
-
-class CategoryInMonthForm(FlaskForm):
     category = SelectField('Category', choices=entries, validators=[DataRequired()])
-    year3 = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    year = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
     submit = SubmitField('Show')
 
 
-class LineMonthForm(FlaskForm):
-    year4 = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+class MonthLineForm(FlaskForm):
+    year_line = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
+    submit = SubmitField('Show')
+
+
+class CategoryMonthForm(FlaskForm):
+    month = SelectField('Month', choices=month_choise, coerce=str, validators=[DataRequired()])
+    category = SelectField('Category', choices=entries, validators=[DataRequired()])
+    year_category = SelectField('Year', choices=year_choices, coerce=int, validators=[DataRequired()])
     submit = SubmitField('Show')

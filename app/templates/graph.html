@@ -2,158 +2,395 @@
 
 
 {% block app_content %}
-    <h2>Days</h2>
-    <form action="" method="post">
-        {{ form_day.hidden_tag() }}
-        <p>
-            {{ form_day.month1.label }}
-            {{ form_day.month1() }}
-            {% for error in form_day.month1.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-        <p>
-            {{ form_day.year1.label }}
-            {{ form_day.year1() }}
-            {% for error in form_day.year1.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-        {{ form_day.submit() }}
-    </form>
-
-    <form action="" method="post">
-        {{ form_mon_line.hidden_tag() }}
-        <p>
-            {{ form_mon_line.year4.label }}
-            {{ form_mon_line.year4() }}
-            {% for error in form_mon_line.year4.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-        {{ form_mon_line.submit() }}
-    </form>
-
-    <h2>Category</h2>
-    <form action="" method="post">
-        {{ form_cat.hidden_tag() }}
-        <p>
-            {{ form_cat.month2.label }}
-            {{ form_cat.month2() }}
-            {% for error in form_cat.month2.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-        <p>
-            {{ form_cat.year2.label }}
-            {{ form_cat.year2() }}
-            {% for error in form_cat.year2.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-        {{ form_cat.submit() }}
-    </form>
-
-    <form action="" method="post">
-        {{ form_mon.hidden_tag() }}
-        <p>
-            {{ form_mon.category.label }}
-            {{ form_mon.category() }}
-            {% for error in form_mon.category.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-        <p>
-            {{ form_mon.year3.label }}
-            {{ form_mon.year3() }}
-            {% for error in form_mon.year3.errors %}
-                {{ error }}
-            {% endfor %}
-        </p>
-        {{ form_mon.submit() }}
-    </form>
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-row mb-5">
+            <form method="post" class="style-form p-3 rounded shadow-lg">
+                <h2>Days line</h2>
+                {{ form1.hidden_tag() }}
+                <div class="form-group">
+                    {{ form1.month_days(class='form-control', placeholder='Month') }}
+                    {% for error in form1.month_days.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form1.year_days.label }}
+                    {{ form1.year_days(class='form-control') }}
+                    {% for error in form1.year_days.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {{ form1.submit(class='light-button w-100') }}
+            </form>
+            <div class="chart-container mx-5" style="width: 450px;">
+                <canvas id="example_day"></canvas>
+            </div>
+            <div class="d-flex align-items-center" style="max-width: 300px">
+                <div>
+                    Shows your expenses per month every day
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row mb-5">
+            <form method="post" class="style-form p-3 rounded shadow-lg">
+                <h2>Category bar</h2>
+                {{ form2.hidden_tag() }}
+                <div class="form-group">
+                    {{ form2.month_category(class='form-control', placeholder='Month') }}
+                    {% for error in form2.month_category.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form2.year_category.label }}
+                    {{ form2.year_category(class='form-control') }}
+                    {% for error in form2.year_category.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {{ form2.submit(class='light-button w-100') }}
+            </form>
+            <div class="chart-container mx-5" style="width: 450px;">
+                <canvas id="example_category_bar"></canvas>
+            </div>
+            <div class="d-flex align-items-center" style="max-width: 300px">
+                <div>
+                    Shows your expenses for each categories in current month
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row mb-5">
+            <form method="post" class="style-form p-3 rounded shadow-lg">
+                <h2>Category hbar</h2>
+                {{ form3.hidden_tag() }}
+                <div class="form-group">
+                    {{ form3.category(class='form-control') }}
+                    {% for error in form3.category.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form3.year.label }}
+                    {{ form3.year(class='form-control') }}
+                    {% for error in form3.year.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {{ form3.submit(class='light-button w-100') }}
+            </form>
+            <div class="chart-container mx-5" style="width: 450px;">
+                <canvas id="example_category_hbar"></canvas>
+            </div>
+            <div class="d-flex align-items-center" style="max-width: 300px">
+                <div>
+                    Shows your expenses for current category in each months
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row mb-5">
+            <form method="post" class="style-form p-3 rounded shadow-lg">
+                <h2>Month line</h2>
+                {{ form4.hidden_tag() }}
+                <div class="form-group">
+                    {{ form4.year_line.label }}
+                    {{ form4.year_line(class='form-control') }}
+                    {% for error in form4.year_line.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {{ form4.submit(class='light-button w-100') }}
+            </form>
+            <div class="chart-container mx-5" style="width: 450px;">
+                <canvas id="example_month"></canvas>
+            </div>
+            <div class="d-flex align-items-center" style="max-width: 300px">
+                <div>
+                    Shows your expenses for each month in current year
+                </div>
+            </div>
+        </div>
+        <div class="d-flex flex-row mb-5">
+            <form method="post" class="style-form p-3 rounded shadow-lg">
+                <h2>Category per day</h2>
+                {{ form5.hidden_tag() }}
+                <div class="form-group">
+                    {{ form5.month(class='form-control', placeholder='Month') }}
+                    {% for error in form5.month.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form5.category(class='form-control') }}
+                    {% for error in form5.category.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                <div class="form-group">
+                    {{ form5.year_category.label }}
+                    {{ form5.year_category(class='form-control') }}
+                    {% for error in form5.year_category.errors %}
+                        <div class="invalid-feedback d-block">{{ error }}</div>
+                    {% endfor %}
+                </div>
+                {{ form5.submit(class='light-button w-100') }}
+            </form>
+            <div class="chart-container mx-5 align-self-center" style="width: 450px;">
+                <canvas id="example_category_per_day"></canvas>
+            </div>
+            <div class="d-flex align-items-center" style="max-width: 300px">
+                <div>
+                    Shows your expenses for category in current month
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
-{##}
-{#{% block scripts %}#}
-{#    {{ super() }}#}
-{#    <script>#}
-{#        let cat = {{ category|safe }};#}
-{#        let mon = {{ months|safe }};#}
-{#        let price_cat = {{ prices_cat }};#}
-{#        let price_mon = {{ prices_mon }};#}
-{#        let line = document.getElementById('graph_line').getContext('2d');#}
-{#        new Chart(line, {#}
-{#            type: 'line',#}
-{#            data: {#}
-{#                labels: mon,#}
-{#                datasets: [{#}
-{#                    label: 'Expense per month',#}
-{#                    data: price_mon,#}
-{#                    fill: false,#}
-{#                    borderColor: "#130bb0",#}
-{#                    lineTension: 0.1#}
-{#                }]#}
-{#            },#}
-{#            options: {#}
-{#                legend: {#}
-{#                    labels: {#}
-{#                        fontColor: 'black'#}
-{#                    }#}
-{#                },#}
-{#                scales: {#}
-{#                    yAxes: [{#}
-{#                        ticks: {#}
-{#                            fontColor: 'black',#}
-{#                            beginAtZero:true#}
-{#                        }#}
-{#                    }],#}
-{#                    xAxes: [{#}
-{#                        ticks: {#}
-{#                            fontColor: 'black'#}
-{#                        }#}
-{#                    }]#}
-{#                }#}
-{#            }#}
-{#        });#}
-{##}
-{#        let bar = document.getElementById('graph_bars').getContext('2d');#}
-{#        new Chart(bar, {#}
-{#            type: 'bar',#}
-{#            data: {#}
-{#                labels: cat,#}
-{#                datasets: [{#}
-{#                    label: 'Categories',#}
-{#                    data: price_cat,#}
-{#                    fill: false,#}
-{#                    backgroundColor: "rgba(255,82,2, 0.8)",#}
-{#                    borderColor: "rgba(255,5,7,0.8)",#}
-{#                    borderWidth: 2,#}
-{#                    hoverBackgroundColor: "rgba(255,82,2,1)",#}
-{#                    hoverBorderColor: "rgba(255,5,7,1)",#}
-{#                    lineTension: 0.1#}
-{#                }]#}
-{#            },#}
-{#            options: {#}
-{#                legend: {#}
-{#                    labels: {#}
-{#                        fontColor: "black"#}
-{#                    }#}
-{#                },#}
-{#                scales: {#}
-{#                    yAxes: [{#}
-{#                        ticks: {#}
-{#                            fontColor: "black",#}
-{#                            beginAtZero: true#}
-{#                        }#}
-{#                    }],#}
-{#                    xAxes: [{#}
-{#                        ticks: {#}
-{#                            fontColor: "black"#}
-{#                        }#}
-{#                    }]#}
-{#                }#}
-{#            }#}
-{#        });#}
-{#    </script>#}
-{#{% endblock %}#}
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        let line = document.getElementById('example_day').getContext('2d');
+        new Chart(line, {
+            type: 'line',
+            data: {
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                datasets: [{
+                    label: 'Expenses in day',
+                    data: [42, 34, 73, 59, 63, 88, 23, 45, 55, 90],
+                    fill: false,
+                    borderColor: "#120bf5",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: 'black'
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: 'black',
+                            beginAtZero:true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Days'
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Expenses per month'
+                }
+            }
+        });
+
+        let bar = document.getElementById('example_category_bar').getContext('2d');
+        new Chart(bar, {
+            type: 'bar',
+            data: {
+                labels: ['Housing', 'Food', 'Education', 'Credit', 'Clothes', 'Medicines'],
+                datasets: [{
+                    label: 'Category expenses',
+                    data: [300, 120, 200, 150, 100, 400],
+                    fill: false,
+                    backgroundColor: "rgba(255,82,2, 0.8)",
+                    borderColor: "rgba(255,5,7,0.8)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(255,82,2,1)",
+                    hoverBorderColor: "rgba(255,5,7,1)",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: "black"
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Categories'
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Expenses for each category'
+                }
+            }
+        });
+
+        let hbar = document.getElementById('example_category_hbar').getContext('2d');
+        new Chart(hbar, {
+            type: 'horizontalBar',
+            data: {
+                labels: ['January', 'February', 'March', 'April'],
+                datasets: [{
+                    label: 'Category',
+                    data: [600, 1000, 500, 800],
+                    fill: false,
+                    backgroundColor: "rgba(205,7,205,0.5)",
+                    borderColor: "rgba(205,7,205,0.8)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(205,7,205,0.8)",
+                    hoverBorderColor: "rgba(205,7,205,1)",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: "black"
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Months'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Expenses for category in each month',
+                }
+            }
+        });
+
+        let mline = document.getElementById('example_month').getContext('2d');
+        new Chart(mline, {
+            type: 'line',
+            data: {
+                labels: ['January', 'February', 'March', 'April', 'May'],
+                datasets: [{
+                    label: 'Expenses in month',
+                    data: [42, 34, 73, 59, 63],
+                    fill: false,
+                    borderColor: "#120bf5",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: 'black'
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: 'black',
+                            beginAtZero:true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Months'
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Expenses per year'
+                }
+            }
+        });
+
+        let dbar = document.getElementById('example_category_per_day').getContext('2d');
+        new Chart(dbar, {
+            type: 'bar',
+            data: {
+                labels: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+                datasets: [{
+                    label: 'Food',
+                    data: [100, 120, 150, 110, 100, 120, 150, 110, 130, 140],
+                    fill: false,
+                    backgroundColor: "rgba(168,0,255, 0.7)",
+                    borderColor: "rgba(168,0,255,0.8)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(168,0,255,1)",
+                    hoverBorderColor: "rgba(168,0,255,1)",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: "black"
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black"
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Costs by category per day'
+                }
+            }
+        })
+    </script>
+{% endblock %}

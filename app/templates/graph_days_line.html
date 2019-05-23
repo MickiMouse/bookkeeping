@@ -17,7 +17,7 @@
             data: {
                 labels: days,
                 datasets: [{
-                    label: 'Expense per month',
+                    label: 'Expenses in day',
                     data: price,
                     fill: false,
                     borderColor: "#130bb0",
@@ -27,7 +27,7 @@
             options: {
                 title: {
                     display: true,
-                    text: 'Your expenses for {{ month }}'
+                    text: 'Your expenses in '
                 },
                 legend: {
                     labels: {
@@ -38,12 +38,20 @@
                     yAxes: [{
                         ticks: {
                             fontColor: 'black',
-                            beginAtZero:true
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
                         }
                     }],
                     xAxes: [{
                         ticks: {
                             fontColor: 'black'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Days'
                         }
                     }]
                 }

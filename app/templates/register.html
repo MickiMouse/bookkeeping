@@ -9,25 +9,26 @@
             <div class="form-group">
                 {{ form.username(class='form-control', placeholder='Username') }}
                 {% for error in form.username.errors %}
-                    {{ error }}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.email(class='form-control', placeholder='Email') }}
                 {% for error in form.email.errors %}
-                    {{ error }}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
             </div>
             <div class="form-group">
                 {{ form.password(class='form-control', placeholder='Password') }}
                 {% for error in form.password.errors %}
-                    {{ error }}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
+                <small>Password must be 8-25 characters</small>
             </div>
             <div class="form-group">
                 {{ form.password2(class='form-control', placeholder='Repeat password') }}
                 {% for error in form.password2.errors %}
-                    {{ error }}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
             </div>
             <div class="d-flex justify-content-center">

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+
+{% block app_content %}
+    <canvas id="graph_category"></canvas>
+{% endblock %}
+
+
+{% block scripts %}
+    {{ super() }}
+    <script>
+        let days = {{ days|safe }};
+        let prices = {{ prices|safe }};
+        let category = '{{ category|safe }}';
+        let chart = document.getElementById('graph_category').getContext('2d');
+        new Chart(chart, {
+            type: 'bar',
+            data: {
+                labels: days,
+                datasets: [{
+                    label: category,
+                    data: prices,
+                    fill: false,
+                    backgroundColor: "rgba(168,0,255, 0.7)",
+                    borderColor: "rgba(168,0,255,0.8)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(168,0,255,1)",
+                    hoverBorderColor: "rgba(168,0,255,1)",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: "black"
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Days'
+                        }
+                    }]
+                },
+                title: {
+                    display: true,
+                    text: 'Costs by category per day'
+                }
+            }
+        })
+    </script>
+{% endblock %}

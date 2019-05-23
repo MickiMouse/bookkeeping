@@ -17,7 +17,7 @@
             data: {
                 labels: cat,
                 datasets: [{
-                    label: 'Categories',
+                    label: 'Category',
                     data: price,
                     fill: false,
                     backgroundColor: "rgba(255,82,2, 0.8)",
@@ -39,6 +39,10 @@
                         ticks: {
                             fontColor: "black",
                             beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
                         }
                     }],
                     xAxes: [{
@@ -46,6 +50,10 @@
                             fontColor: "black"
                         }
                     }]
+                },
+                title: {
+                    display: true,
+                    text: 'Costs by category'
                 }
             }
         });
