@@ -10,7 +10,7 @@ def _calendar_month(args):
     return [calendar.month_name[i] for i in args]
 
 
-@bp.route('/chart', methods=['GET', 'POST'])
+@bp.route('/graphics', methods=['GET', 'POST'])
 @login_required
 def graphics():
     forms = [DaysLineForm(), MonthCategoryForm(), CategoryForm(), MonthLineForm(), CategoryMonthForm()]
@@ -51,7 +51,7 @@ def graphics():
 @login_required
 def graph_days_line(month, year):
     chart = Graph(current_user)
-    filter_dict = {'month': int(month), 'year': year}
+    filter_dict = {'month': int(month), 'year': year, 'payer': current_user}
     days, prices = chart.days(**filter_dict)
     return render_template('graph_days_line.html', days=days, prices=prices, month=_calendar_month([int(month)]))
 

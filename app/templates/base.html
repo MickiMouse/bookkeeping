@@ -9,13 +9,14 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-dark position-fixed w-100" style="height: 80px; background-color: #2a2a2a; top: 0;">
+        <nav class="navbar navbar-expand-lg navbar-dark position-fixed w-100" style="height: 80px; background-color: #2a2a2a; top: 0; z-index: 30;">
             <a class="navbar-brand" href="{{ url_for('main.preview') }}"><b>Bookkeeping</b></a>
             <div class="collapse navbar-collapse justify-content-end">
                 <ul class="navbar-nav">
                     <li class="mx-4"><a class="nav-link" href="{{ url_for('main.index') }}">Home</a></li>
                     <li class="mx-4"><a class="nav-link" href="">About</a></li>
                     <li class="mx-4"><a class="nav-link" href="">Contact us</a></li>
+                    <li class="mx-4"><a class="nav-link" href="">How it works</a></li>
                     {% if current_user.is_active %}
                     <li class="mx-4"><a href="{{ url_for('auth.logout') }}"><button class="light-button">Log out</button></a></li>
                     {% else %}
@@ -27,9 +28,7 @@
         </nav>
         {% if current_user.is_active %}
         <div class="burger-menu">
-            <a href="" class="burger-menu__button">
-                <span class="burger-menu__lines"></span>
-            </a>
+            <a href="" class="burger-menu__button"><span class="burger-menu__lines"></span></a>
             <nav class="burger-menu__nav">
                 <a href="{{ url_for('main.index') }}" class="burger-menu__link">{{ current_user.username }}</a>
                 <a href="{{ url_for('main.index') }}" class="burger-menu__link">Home</a>
@@ -39,7 +38,7 @@
             </nav>
         </div>
         {% endif %}
-        <div class="container" style="margin-top: 160px">
+        <div class="container" style="margin-top: 120px">
             {% block app_content %}{% endblock %}
         </div>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.js"></script>

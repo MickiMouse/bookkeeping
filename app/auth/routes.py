@@ -7,8 +7,10 @@ from flask_login import current_user, logout_user, login_user
 from app.auth.email import send_password_reset
 from werkzeug.urls import url_parse
 
-# serializer = itsdangerous.URLSafeSerializer(secret_key=current_app.config['SECRET_KEY'])
-# ACTIVATION_SALT = 'activate-salt'
+'''
+serializer = itsdangerous.URLSafeSerializer(secret_key=current_app.config['SECRET_KEY'])
+ACTIVATION_SALT = 'activate-salt'
+'''
 
 
 @bp.route('/login', methods=['GET', 'POST'])
@@ -49,9 +51,11 @@ def register():
         user.set_password(form.password2.data)
         db.session.add(user)
         db.session.commit()
-        # token = serializer.dumps(user.as_dict(), salt=ACTIVATION_SALT)
-        # send_request_confirm(user, token)
-        # flash('Check your email and confirm your account')
+        '''
+        token = serializer.dumps(user.as_dict(), salt=ACTIVATION_SALT)
+        send_request_confirm(user, token)
+        flash('Check your email and confirm your account')
+        '''
         return redirect(url_for('auth.login'))
     return render_template('register.html', form=form)
 

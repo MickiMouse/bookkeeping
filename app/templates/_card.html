@@ -1,6 +1,6 @@
-<div class="card shadow-lg" style="max-height: 300px; max-width: 200px;">
-    <div class="card-body text-center">
-        <h5 class="card-title">{{ card.category }} - {{ card.price }}</h5>
-        <p class="card-text">{% if card.note %}{{ card.note }}{% endif %}</p>
-    </div>
-</div>
+<tr>
+{#    <td><span><a href="{{ url_for('main.delete', id=card.id) }}">Delete {{ card.id }}</a></span></td>#}
+    <td><span>{{ card.category }}</span></td>
+    <td><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>
+    <td><span style="color: #eb0000;float: right;">-{{ card.price }}</span></td>
+</tr>
