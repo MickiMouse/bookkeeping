@@ -17,6 +17,8 @@ def preview():
 @bp.route('/index')
 @login_required
 def index():
+    currency = '$'
+    chart = Graph(current_user)
     page = request.args.get('page', 1, type=int)
     cards = Card.query.filter_by(
         payer=current_user,
@@ -28,17 +30,19 @@ def index():
         error_out=False)
     next_url = url_for('main.index', page=cards.next_num) if cards.has_next else None
     prev_url = url_for('main.index', page=cards.prev_num) if cards.has_prev else None
+
     colors = ['#AB2B52', '#7c1f7C', '#4F2982', '#94002D', '#6C006C', '#330570',
               '#120873', '#689AD3', '#542881', '#2618B1', '#5C0DAC', '#0D56A6']
-    chart = Graph(current_user)
+
     categories, prices = chart.get_all_categories()
+
     bg_colors = colors[:len(categories)]
     date = '{} {}'.format(calendar.month_name[datetime.utcnow().month], datetime.utcnow().year)
     total = get_total(datetime.utcnow().month, datetime.utcnow().year)
-    data = get_percents(categories, prices)
+    percents = get_percents(categories, prices)
     return render_template('index.html', cards=cards, next_url=next_url, prev_url=prev_url,
                            date=date, categories=categories, prices=prices, bg_colors=bg_colors,
-                           total=total, data=data)
+                           total=total, percents=percents, currency=currency)
 
 
 @bp.route('/add_card', methods=['GET', 'POST'])
@@ -49,6 +53,7 @@ def create_card():
         card = Card(price=float(form.price.data),
                     category=form.category.data,
                     note=form.note.data,
+                    kind=bool(form.kind.data),
                     payer=current_user,
                     year=datetime.utcnow().date().year,
                     month=datetime.utcnow().date().month,
@@ -81,13 +86,14 @@ def get_percents(categories, prices):
     percents.sort()
     percents.reverse()
     z.reverse()
-    data = ['{}% {}'.format(round(percents[i], 2), z[i]) for i in range(len(percents))]
+    data = ['{} {}%'.format(z[i], round(percents[i], 2)) for i in range(len(percents))]
 
     if len(data) > 3:
-        return data[:3]
+        return data[:5]
     else:
         return data
 
 
 def get_total(month, year):
-    return sum([card.price for card in Card.query.filter_by(payer=current_user, month=month, year=year).all()])
+    return round(sum([card.price if card.kind else (-1) * card.price
+                      for card in Card.query.filter_by(payer=current_user, month=month, year=year).all()]), 2)

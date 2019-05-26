@@ -16,49 +16,49 @@ class Graph:
 
     def days(self, **kwargs):
         for card in Card.query.filter_by(**kwargs).all():
-            if card.day not in self.data:
+            if card.day not in self.data and not card.kind:
                 self.data[card.day] = card.price
-            else:
+            elif not card.kind:
                 self.data[card.day] += card.price
         return self.transform_data(0)
 
     def month(self, year):
         for card in Card.query.filter_by(payer=self.user, year=year).all():
-            if card.month not in self.data:
+            if card.month not in self.data and not card.kind:
                 self.data[card.month] = card.price
-            else:
+            elif not card.kind:
                 self.data[card.month] += card.price
         return self.transform_data(0)
 
     def categories(self, month, year):
         for card in Card.query.filter_by(payer=self.user, month=month, year=year).all():
-            if card.category not in self.data:
+            if card.category not in self.data and not card.kind:
                 self.data[card.category] = card.price
-            else:
+            elif not card.kind:
                 self.data[card.category] += card.price
         return self.transform_data(1)
 
     def category_per_month(self, category, year):
         for card in Card.query.filter_by(payer=self.user, category=category, year=year).all():
-            if card.month not in self.data:
+            if card.month not in self.data and not card.kind:
                 self.data[card.month] = card.price
-            else:
+            elif not card.kind:
                 self.data[card.month] += card.price
         return self.transform_data(0)
 
     def category_per_day(self, category, month, year):
         for card in Card.query.filter_by(payer=self.user, category=category, month=month, year=year).all():
-            if card.day not in self.data:
+            if card.day not in self.data and not card.kind:
                 self.data[card.day] = card.price
-            else:
+            elif not card.kind:
                 self.data[card.day] += card.price
         return self.transform_data(0)
 
     def get_all_categories(self):
         for card in Card.query.filter_by(payer=self.user):
-            if card.category not in self.data:
+            if card.category not in self.data and not card.kind:
                 self.data[card.category] = card.price
-            else:
+            elif not card.kind:
                 self.data[card.category] += card.price
 
         return self.transform_data(0)

@@ -1,6 +1,12 @@
 <tr>
-{#    <td><span><a href="{{ url_for('main.delete', id=card.id) }}">Delete {{ card.id }}</a></span></td>#}
     <td><span>{{ card.category }}</span></td>
-    <td><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>
-    <td><span style="color: #eb0000;float: right;">-{{ card.price }}</span></td>
+    <td class="text-center"><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>
+    {% if card.kind %}
+        <td><span style="color: #00af00;float: right;">+{{ card.price }} {{ currency }}</span></td>
+    {% else %}
+        <td>
+            <span style="color: #eb0000;float: right;">-{{ card.price }} {{ currency }}</span>
+        </td>
+    {% endif %}
+    <td style="display: none;float: right"><span></span></td>
 </tr>

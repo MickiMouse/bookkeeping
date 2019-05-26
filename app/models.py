@@ -45,6 +45,7 @@ class Card(db.Model):
     category = db.Column(db.String(16), index=True)
     timestamp = db.Column(db.DateTime, default=datetime.utcnow())
     note = db.Column(db.String(32), index=True)
+    kind = db.Column(db.Boolean, index=True)
     year = db.Column(db.Integer, default=datetime.utcnow().date().year)
     month = db.Column(db.Integer, default=datetime.utcnow().date().month)
     day = db.Column(db.Integer, default=datetime.utcnow().date().day)

@@ -17,9 +17,6 @@ a:hover {
 h2 {
     font-weight: bold;
 }
-td > span {
-    font-weight: bolder;
-}
 .prev {
     width: 50%;
     text-align: center;
