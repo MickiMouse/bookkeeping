@@ -1,12 +1,15 @@
 <tr>
-    <td><span>{{ card.category }}</span></td>
-    <td class="text-center"><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>
+    <td><span><a href="{{ url_for('main.describe', category=card.category, year=card.year) }}">{{ card.category }}</a></span></td>
+    <td><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>
     {% if card.kind %}
-        <td><span style="color: #00af00;float: right;">+{{ card.price }} {{ currency }}</span></td>
+        <td><span class="f-right" style="color: #00af00;">+{{ card.price }} {{ currency }}</span></td>
     {% else %}
         <td>
-            <span style="color: #eb0000;float: right;">-{{ card.price }} {{ currency }}</span>
+            <span class="f-right" style="color: #eb0000;">-{{ card.price }} {{ currency }}</span>
         </td>
     {% endif %}
-    <td style="display: none;float: right"><span></span></td>
+{#    ПЕРЕХОД ПО ССЫЛКЕ ДЛЯ ИЗМЕНЕНИЯ ЗАПИСИ#}
+{#    ПАРАМЕТРЫ:#}
+{#        id#}
+{#    <td><span><a href="{{ url_for('card.delete') }}">&#128394;</a></span></td>#}
 </tr>

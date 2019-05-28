@@ -1,12 +1,11 @@
 import calendar
 from datetime import datetime
-from app import db
 from app.main import bp
-from app.main.forms import CreateCardForm
 from app.graph import Graph
 from app.models import Card
-from flask import render_template, redirect, url_for, request, current_app
+from flask import render_template, url_for, request, current_app
 from flask_login import login_required, current_user
+from crendentials import *
 
 
 @bp.route('/')
@@ -14,11 +13,10 @@ def preview():
     return render_template('preview.html')
 
 
-@bp.route('/index')
+@bp.route('/index', methods=['GET'])
 @login_required
 def index():
     currency = '$'
-    chart = Graph(current_user)
     page = request.args.get('page', 1, type=int)
     cards = Card.query.filter_by(
         payer=current_user,
@@ -34,34 +32,20 @@ def index():
     colors = ['#AB2B52', '#7c1f7C', '#4F2982', '#94002D', '#6C006C', '#330570',
               '#120873', '#689AD3', '#542881', '#2618B1', '#5C0DAC', '#0D56A6']
 
-    categories, prices = chart.get_all_categories()
+    chart = Graph(current_user)
+    categories, prices = chart.get_cards('category')
 
     bg_colors = colors[:len(categories)]
     date = '{} {}'.format(calendar.month_name[datetime.utcnow().month], datetime.utcnow().year)
-    total = get_total(datetime.utcnow().month, datetime.utcnow().year)
+
+    all_cards = Card.query.filter_by(payer=current_user,
+                                     month=datetime.utcnow().month,
+                                     year=datetime.utcnow().year).all()
+    total = get_total(all_cards)
     percents = get_percents(categories, prices)
     return render_template('index.html', cards=cards, next_url=next_url, prev_url=prev_url,
                            date=date, categories=categories, prices=prices, bg_colors=bg_colors,
                            total=total, percents=percents, currency=currency)
-
-
-@bp.route('/add_card', methods=['GET', 'POST'])
-@login_required
-def create_card():
-    form = CreateCardForm()
-    if form.validate_on_submit():
-        card = Card(price=float(form.price.data),
-                    category=form.category.data,
-                    note=form.note.data,
-                    kind=bool(form.kind.data),
-                    payer=current_user,
-                    year=datetime.utcnow().date().year,
-                    month=datetime.utcnow().date().month,
-                    day=datetime.utcnow().date().day)
-        db.session.add(card)
-        db.session.commit()
-        return redirect(url_for('main.index'))
-    return render_template('create_card.html', form=form)
 
 
 @bp.route('/table', methods=['GET', 'POST'])
@@ -71,29 +55,17 @@ def table():
     return render_template('table.html', cards=cards)
 
 
-@bp.route('/delete/<id>', methods=['GET', 'POST'])
+@bp.route('/describe/<category>/<year>', methods=['GET'])
 @login_required
-def delete(id):
-    card = Card.query.get(int(id))
-    db.session.delete(card)
-    db.session.commit()
-    return redirect(url_for('main.index'))
+def describe(category, year):
+    filter_dict = {'category': category, 'year': year}
+    chart = Graph(current_user)
+    month, prices_mon = chart.get_exp_month(**filter_dict)
+    month = calendar_month(month)
 
+    chart = Graph(current_user)
+    categories, prices_cat = chart.get_cards('category')
 
-def get_percents(categories, prices):
-    percents = [x / sum(prices) * 100 for x in prices]
-    z = [j for i, j in sorted(zip(percents, categories), key=lambda pair: pair[0])]
-    percents.sort()
-    percents.reverse()
-    z.reverse()
-    data = ['{} {}%'.format(z[i], round(percents[i], 2)) for i in range(len(percents))]
-
-    if len(data) > 3:
-        return data[:5]
-    else:
-        return data
-
-
-def get_total(month, year):
-    return round(sum([card.price if card.kind else (-1) * card.price
-                      for card in Card.query.filter_by(payer=current_user, month=month, year=year).all()]), 2)
+    date = '{} {}'.format(calendar.month_name[datetime.utcnow().month], datetime.utcnow().year)
+    return render_template('statistics.html', month=month, prices_mon=prices_mon, category=category,
+                           preces_cat=prices_cat, categories=categories, date=date)

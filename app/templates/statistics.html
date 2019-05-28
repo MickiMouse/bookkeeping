@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+
+{% block app_content %}
+    <div class="d-flex flex-row">
+        <div class="d-flex flex-column" style="width: 550px;background-color: #F0F0F0">
+            <h2>{{ category }}</h2>
+            <canvas id="chartBar"></canvas>
+        </div>
+        <div class="d-flex flex-column" style="width: 550px;background-color: #F0F0F0">
+            <h2>{{ date }}</h2>
+            <canvas id="chartPie"></canvas>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        let month = {{ month|safe }};
+        let prices_mon = {{ prices_mon|safe }};
+        let bar = document.getElementById('chartBar').getContext('2d');
+        new Chart(bar, {
+            type: 'horizontalBar',
+            data: {
+                labels: month,
+                datasets: [{
+                    label: '{{ category }}',
+                    data: prices_mon,
+                    fill: false,
+                    backgroundColor: "rgb(185,185,185)",
+                    borderColor: "rgb(112,112,112)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgb(115,115,115)",
+                    hoverBorderColor: "rgb(65,65,65)",
+                    lineTension: 0.1
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: "black"
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: "black"
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black",
+                            beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Price'
+                        }
+                    }]
+                }
+            }
+        });
+
+        let categories = {{ categories|safe }};
+        let prices_cat = {{ preces_cat|safe }};
+        let pie = document.getElementById('chartPie').getContext('2d');
+        new Chart(pie, {
+            type: 'pie',
+            data: {
+                labels: categories,
+                datasets: [{
+                    backgroundColor: ['#ff0000', '#00ff00'],
+                    data: prices_cat,
+                }]
+            },
+            options: {
+                legend: {
+                    display: true,
+                    position: 'left'
+                }
+            }
+        });
+    </script>
+{% endblock %}

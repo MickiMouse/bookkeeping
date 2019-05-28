@@ -12,7 +12,7 @@ kind_choice = [(0, 'Expenses'), (1, 'Income')]
 class CreateCardForm(FlaskForm):
     price = StringField('Price', validators=[DataRequired()])
     category = SelectField('Category', choices=entries, validators=[DataRequired()])
-    kind = SelectField(choices=kind_choice, coerce=int)#, validators=[DataRequired()])
+    kind = SelectField(choices=kind_choice, coerce=int)
     note = TextAreaField('Note', validators=[Length(max=32)])
     submit = SubmitField('Create')
 

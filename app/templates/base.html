@@ -30,9 +30,9 @@
         <div class="burger-menu">
             <a href="" class="burger-menu__button"><span class="burger-menu__lines"></span></a>
             <nav class="burger-menu__nav">
-                <a href="{{ url_for('main.index') }}" class="burger-menu__link">{{ current_user.username }}</a>
+                <a href="#" class="burger-menu__link">{{ current_user.username }}</a>
                 <a href="{{ url_for('main.index') }}" class="burger-menu__link">Home</a>
-                <a href="{{ url_for('main.create_card') }}" class="burger-menu__link">Add card</a>
+                <a href="{{ url_for('card.create') }}" class="burger-menu__link">Add card</a>
                 <a href="{{ url_for('charts.graphics') }}" class="burger-menu__link">Graphics</a>
                 <a href="{{ url_for('main.table') }}" class="burger-menu__link">Table</a>
             </nav>

@@ -31,6 +31,12 @@ def create_app(config_class=Config):
     from app.charts import bp as charts_bp
     app.register_blueprint(charts_bp)
 
+    from app.card import bp as card_bp
+    app.register_blueprint(card_bp)
+
+    from app.api import bp as api_bp
+    app.register_blueprint(api_bp)
+
     return app
 
 

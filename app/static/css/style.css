@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Poppins:300,400,60');
 body {
-    background-color: #cdcdcd;
+    background-color: #efefef;
     margin: 0;
     padding: 0;
     /*font-family: "Roboto", Arial, sans-serif;*/
@@ -33,11 +33,10 @@ h2 {
     z-index: 35;
     width: 50px;
     height: 50px;
-    background-color: #4f4f4f;
     transition: 0.6s;
 }
 .burger-menu__button:hover, .burger-menu__lines {
-    filter: brightness(0.7);
+    filter: brightness(0.2);
 }
 .burger-menu__lines,
 .burger-menu__lines::after,
@@ -103,7 +102,6 @@ h2 {
 }
 .dark-button {
     width: 100%;
-    border-radius: 20px;
     border: 1px solid #2a2a2a;
 	background-color: #2a2a2a;
 	color: #FFFFFF;
@@ -115,8 +113,7 @@ h2 {
     cursor: pointer;
 }
 .light-button {
-    border-radius: 20px;
-    border: 1px solid #2a2a2a;
+    border: 1px solid #FFFFFF;
 	background-color: #FFFFFF;
     color: #2a2a2a;
     font-size: 12px;
@@ -125,6 +122,10 @@ h2 {
 	letter-spacing: 1px;
 	text-transform: uppercase;
     cursor: pointer;
+    transition: 0.5s;
+}
+.light-button:hover {
+    opacity: 0.65;
 }
 .dark-button:focus, .light-button:focus {
     outline: none;
@@ -133,6 +134,14 @@ h2 {
     opacity: 0.7;
 }
 .percent {
-    font-size: 34px;
-    font-weight: bolder;
+    font-size: 20px;
+}
+.bg-img {
+    background-image: url("/static/img/image.jpg");
+}
+.index-card__total {
+    font-size: 30px;
+}
+.f-right {
+    float: right;
 }
