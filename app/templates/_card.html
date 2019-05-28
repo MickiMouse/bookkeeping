@@ -1,5 +1,9 @@
 <tr>
-    <td><span><a href="{{ url_for('main.describe', category=card.category, year=card.year) }}">{{ card.category }}</a></span></td>
+    <td>
+        <span class="decor-left">
+            <a href="{{ url_for('main.describe', category=card.category, year=card.year) }}">{{ card.category }}</a>
+        </span>
+    </td>
     <td><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>
     {% if card.kind %}
         <td><span class="f-right" style="color: #00af00;">+{{ card.price }} {{ currency }}</span></td>
@@ -8,8 +12,12 @@
             <span class="f-right" style="color: #eb0000;">-{{ card.price }} {{ currency }}</span>
         </td>
     {% endif %}
-{#    ПЕРЕХОД ПО ССЫЛКЕ ДЛЯ ИЗМЕНЕНИЯ ЗАПИСИ#}
-{#    ПАРАМЕТРЫ:#}
-{#        id#}
-{#    <td><span><a href="{{ url_for('card.delete') }}">&#128394;</a></span></td>#}
+    <td class="border-left border-bottom">
+        <span class="d-flex justify-content-around">
+            <a href="{{ url_for('card.change', id=card.id) }}">&#128394;</a>
+            <a href="{{ url_for('card.delete', id=card.id) }}">
+                <i class="material-icons">delete</i>
+            </a>
+        </span>
+    </td>
 </tr>

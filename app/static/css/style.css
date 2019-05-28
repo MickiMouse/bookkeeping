@@ -145,3 +145,14 @@ h2 {
 .f-right {
     float: right;
 }
+.decor-left a {
+    text-decoration: none;
+    background-image: linear-gradient(currentColor, currentColor);
+    background-position: bottom;
+    background-repeat: no-repeat;
+    background-size: 0% 2px;
+    transition: background-size .3s;
+}
+.decor-left a:hover {
+    background-size: 100% 2px;
+}
