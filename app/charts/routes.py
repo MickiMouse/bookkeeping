@@ -3,7 +3,7 @@ from app.charts.forms import *
 from app.graph import Graph
 from flask import redirect, url_for, render_template
 from flask_login import login_required, current_user
-from crendentials import _calendar_month
+from crendentials import calendar_month
 
 
 @bp.route('/graphics', methods=['GET', 'POST'])
@@ -49,7 +49,10 @@ def graph_days_line(month, year):
     filter_dict = {'month': int(month), 'year': year}
     chart = Graph(current_user, **filter_dict)
     days, prices = chart.get_cards('day')
-    return render_template('graph_days_line.html', days=days, prices=prices, month=_calendar_month([int(month)]))
+    return render_template('graph_days_line.html',
+                           days=days,
+                           prices=prices,
+                           month=calendar_month([int(month)]))
 
 
 @bp.route('/month/<year>', methods=['GET'])
@@ -58,7 +61,7 @@ def graph_month_line(year):
     filter_dict = {'year': year}
     chart = Graph(current_user, **filter_dict)
     month, prices = chart.get_cards('month')
-    month = _calendar_month(month)
+    month = calendar_month(month)
     return render_template('graph_month_line.html', month=month, prices=prices)
 
 
@@ -70,7 +73,7 @@ def graph_category_bar(month, year):
     categories, prices = chart.get_cards('category')
     return render_template('graph_categories_bar.html',
                            cat=categories, prices=prices,
-                           month=_calendar_month([int(month)]))
+                           month=calendar_month([int(month)]))
 
 
 @bp.route('/category/<category>/<year>', methods=['GET'])
@@ -79,7 +82,7 @@ def graph_month_hbar(category, year):
     filter_dict = {'category': category, 'year': year}
     chart = Graph(current_user, **filter_dict)
     month, prices = chart.get_cards('month')
-    month = _calendar_month(month)
+    month = calendar_month(month)
     return render_template('graph_categories_hbar.html', month=month, prices=prices, category=category)
 
 
