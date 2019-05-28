@@ -1,4 +1,6 @@
-venv
+venv/
 app.db
-__pycashe__
-.env
+
+*__pycashe__
+*.idea
+*.env
