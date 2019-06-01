@@ -3,7 +3,7 @@ from app.charts.forms import *
 from app.graph import Graph
 from flask import redirect, url_for, render_template
 from flask_login import login_required, current_user
-from crendentials import calendar_month
+from app.crendentials import calendar_month
 
 
 @bp.route('/graphics', methods=['GET', 'POST'])

@@ -6,28 +6,83 @@
         <form method="post" class="style-form p-3 rounded">
             <h2>Change card</h2>
             {{ form.hidden_tag() }}
-            <div class="form-group">
+            <div class="form-group" onclick="exchange()">
                 {{ form.kind(class="form-control") }}
                 {% for error in form.kind.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
             </div>
             <div class="form-group">
-                {{ form.price.label }}
                 {{ form.price(class="form-control", placeholder='Price') }}
                 {% for error in form.price.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
             </div>
             <div class="form-group">
-                {{ form.category.label }}
-                {{ form.category(class="form-control") }}
+                <div class="form-row">
+                    <div class="col">
+                        {{ form.category_expenses.label }}
+                        {{ form.category_expenses(class="form-control") }}
+                        {% for error in form.category_expenses.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                    <div class="col">
+                        {{ form.category_incomes.label }}
+                        {{ form.category_incomes(class="form-control") }}
+                        {% for error in form.category_incomes.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
             </div>
             <div class="form-group">
-                {{ form.note.label }}
+                <div class="form-row">
+                    <div class="col">
+                        {{ form.day(class='form-control', placeholder='day (optional)') }}
+                        {% for error in form.day.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+                    </div>
+                    <div class="col">
+                        {{ form.month(class='form-control', placeholder='month (optional)') }}
+                        {% for error in form.month.errors %}
+                    <div class="invalid-feedback d-block">{{ error }}</div>
+                {% endfor %}
+                    </div>
+                    <div class="col">
+                        {{ form.year(class='form-control', placeholder='year (optional)') }}
+                        {% for error in form.year.errors %}
+                            <div class="invalid-feedback d-block">{{ error }}</div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
                 {{ form.note(class="form-control", placeholder='Note (optional)', maxlength="32") }}
             </div>
-            {{ form.submit(class="dark-button w-100", value="Change") }}
+            {{ form.submit(class="dark-button w-100", value='Change') }}
         </form>
     </div>
+{% endblock %}
+
+
+{% block scripts %}
+    <script>
+        function exchange() {
+            let e = document.getElementById('kind');
+            let exp = document.getElementById('category_expenses');
+            let inc = document.getElementById('category_incomes');
+            if (e.value === '0') {
+                console.log(e.value);
+                inc.style = 'border: 2px solid rgba(175,1,5,0.77)';
+                exp.style = 'border: 2px solid rgba(41,175,25,0.77)';
+            } else {
+                console.log(e.value);
+                exp.style = 'border: 2px solid rgba(175,1,5,0.77)';
+                inc.style = 'border: 2px solid rgba(41,175,25,0.77)';
+            }
+        }
+        exchange();
+    </script>
 {% endblock %}

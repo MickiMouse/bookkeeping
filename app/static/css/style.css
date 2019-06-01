@@ -44,7 +44,7 @@ h2 {
     position: absolute;
     width: 25px;
     height: 4px;
-    background-color: #fff;
+    background-color: #FFFFFF;
 }
 .burger-menu__lines {
     top: 50%;
@@ -155,4 +155,17 @@ h2 {
 }
 .decor-left a:hover {
     background-size: 100% 2px;
+}
+.paginate-button {
+    border: 1px solid #f0f0f0;
+    background-color: #FFFFFF;
+    color: #2a2a2a;
+    height: 100%;
+    cursor: pointer;
+    transition: 0.5s;
+    font-size: 20px;
+}
+.paginate-button:hover {
+    background-color: #2a2a2a;
+    color: #FFFFFF;
 }

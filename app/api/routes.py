@@ -14,7 +14,7 @@ def get_all_users():
         user_data['email'] = user.email
         user_data['pass_hash'] = user.pass_hash
         data.append(user_data)
-    return jsonify(data)
+    return jsonify({'users': data})
 
 
 @bp.route('/api/user/<user_id>', methods=['GET'])
