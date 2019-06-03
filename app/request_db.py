@@ -1,7 +1,7 @@
 from app.models import Card
 
 
-class Graph:
+class CardResponse:
     def __init__(self, user, **kwargs):
         self.user = user
         self.cards = Card.query.filter_by(payer=self.user, **kwargs).all()
@@ -23,7 +23,7 @@ class Graph:
                 self.data[attr] += card.price
         return self.transform_data(0)
 
-    def get_exp_month(self, **kwargs):
+    def get_expenses_month(self, **kwargs):
         months = range(1, 13)
         for month in months:
             cards = Card.query.filter_by(payer=self.user, month=month, **kwargs).all()

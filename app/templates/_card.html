@@ -1,7 +1,9 @@
 <tr>
     <td>
         <span class="decor-left">
-            <a href="{{ url_for('main.describe', category=card.category, year=card.year) }}">{{ card.category }}</a>
+            <a href="{{ url_for('main.describe', category=card.category, year=card.year, month=card.month) }}">
+                {{ card.category }}
+            </a>
         </span>
     </td>
     <td><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>

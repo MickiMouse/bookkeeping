@@ -4,13 +4,13 @@
 {% block app_content %}
     <div class="d-flex justify-content-between">
         <div class="d-flex">
-            <a href="{{ url_for('main.index', month=month-1, year=year) }}"><h2>❮</h2></a>
+            <a href="{{ url_for('main.index', month=month-1, year=year) }}" class="btn-lg">&lt;</a>
             <h2>{{ date[0] }} {{ date[1] }}</h2>
-            <a href="{{ url_for('main.index', month=month+1, year=year) }}"><h2>❯</h2></a>
+            <a href="{{ url_for('main.index', month=month+1, year=year) }}" class="btn-lg">&gt;</a>
         </div>
         <a href="{{ url_for('card.create') }}"><button class="light-button">Add card</button></a>
     </div>
-    <div class="d-flex my-2">
+    <div class="d-flex my-3">
         <div class="flex-column">
             <a href="{{ prev_url }}">
                 <button class="paginate-button" type="button" {% if prev_url is none %}disabled{% endif %}>
@@ -24,6 +24,7 @@
                     {% include '_card.html' %}
                 {% endfor %}
                 <td><span class="index-card__total">Total</span></td>
+                <td></td>
                 {% if total < 0 %}
                     <td><span class="index-card__total f-right" style="color: #eb0000;">{{ total }} {{ currency }} </span></td>
                 {% else %}
@@ -39,10 +40,10 @@
             </a>
         </div>
     </div>
-    <div class="d-flex flex-row justify-content-between">
-        <div class="d-flex flex-column" style="background-color: #ffffff">
-            <span class="p-2" style="border-bottom: 1px solid #efefef">Top-5 expensive categories</span>
-            <table class="table my-0" style="width: 550px; ">
+    <div class="d-flex">
+        <div class="flex-column flex-grow-1 bg-white mr-2">
+            <p class="p-2 my-0">Top-5 expensive categories in {{ date[0] }} {{ date[1] }}</p>
+            <table class="table">
             {% for percent in percents %}
                 <tr>
                     <td class="percent"><span>{{ percent[0] }}</span></td>
@@ -51,11 +52,12 @@
             {% endfor %}
             </table>
         </div>
-        <div class="d-flex flex-column" style="background-color: #ffffff">
-            <span class="p-2" style="border-bottom: 2px solid #efefef">Costs per {{ date[1] }}</span>
-            <div class="" style="width: 550px;">
-                <canvas id="pieAllCategories"></canvas>
-            </div>
+        <div class="flex-column flex-grow-1 bg-white ml-2" style="max-width: 550px;">
+            <p class="p-2 my-0   border-bottom">Costs per {{ date[0] }} {{ date[1] }}</p>
+            <canvas id="pieAllCategories"></canvas>
+{#            <div style="width: 550px;">#}
+
+{#            </div>#}
         </div>
     </div>
 {% endblock %}

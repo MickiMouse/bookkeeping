@@ -2,14 +2,22 @@
 
 
 {% block app_content %}
-    <div class="d-flex flex-row">
-        <div class="d-flex flex-column" style="width: 550px;background-color: #F0F0F0">
-            <h2>{{ category }}</h2>
-            <canvas id="chartBar"></canvas>
+    <div class="d-flex flex-column">
+        <div class="d-flex flex-row">
+            <div class="flex-column flex-grow-1 bg-white mr-2">
+                <h3 class="p-2 border-bottom">{{ category }}</h3>
+                <canvas id="chartBar"></canvas>
+            </div>
+            <div class="flex-column flex-grow-1 bg-white ml-2">
+{#            <a href="{{ url_for('main.describe', category=category, year=year, month=month-1) }}">LEFT</a>#}
+                <h3 class="p-2 border-bottom">{{ date[0] }} {{ date[1] }}</h3>
+{#            <a href="{{ url_for('main.describe', category=category, year=year, month=month+1) }}">RIGHT</a>#}
+                <canvas id="chartPie"></canvas>
+            </div>
         </div>
-        <div class="d-flex flex-column" style="width: 550px;background-color: #F0F0F0">
-            <h2>{{ date }}</h2>
-            <canvas id="chartPie"></canvas>
+        <div class="flex-column bg-white mt-3">
+            <h3 class="p-2 border-bottom">{{ date[0] }} {{ date[1] }}</h3>
+            <canvas id="chartLine"></canvas>
         </div>
     </div>
 {% endblock %}
@@ -17,22 +25,22 @@
 
 {% block scripts %}
     <script>
-        let month = {{ month|safe }};
-        let prices_mon = {{ prices_mon|safe }};
+        let months = {{ months|safe }};
+        let prices = {{ prices_months|safe }};
         let bar = document.getElementById('chartBar').getContext('2d');
         new Chart(bar, {
             type: 'horizontalBar',
             data: {
-                labels: month,
+                labels: months,
                 datasets: [{
                     label: '{{ category }}',
-                    data: prices_mon,
+                    data: prices,
                     fill: false,
-                    backgroundColor: "rgb(185,185,185)",
-                    borderColor: "rgb(112,112,112)",
+                    backgroundColor: 'rgba(42,39,255,0.79)',
+                    borderColor: 'rgba(42,39,255,0.79)',
                     borderWidth: 2,
-                    hoverBackgroundColor: "rgb(115,115,115)",
-                    hoverBorderColor: "rgb(65,65,65)",
+                    hoverBackgroundColor: 'rgba(42,39,255,0.79)',
+                    hoverBorderColor: 'rgba(42,39,255,0.79)',
                     lineTension: 0.1
                 }]
             },
@@ -52,10 +60,6 @@
                         ticks: {
                             fontColor: "black",
                             beginAtZero: true
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Price'
                         }
                     }]
                 }
@@ -63,15 +67,15 @@
         });
 
         let categories = {{ categories|safe }};
-        let prices_cat = {{ preces_cat|safe }};
+        let prices_cat = {{ prices_category|safe }};
         let pie = document.getElementById('chartPie').getContext('2d');
         new Chart(pie, {
             type: 'pie',
             data: {
                 labels: categories,
                 datasets: [{
-                    backgroundColor: ['#ff0000', '#00ff00'],
                     data: prices_cat,
+                    backgroundColor: ['rgba(42,39,255,0.79)'],
                 }]
             },
             options: {
@@ -81,5 +85,41 @@
                 }
             }
         });
+
+        let days = {{ days|safe }};
+        let prices_days = {{ prices_days|safe }};
+        let line = document.getElementById('chartLine').getContext('2d');
+        new Chart(line, {
+            type: 'line',
+            data: {
+                labels: days,
+                datasets: [{
+                    label: '{{ category }}',
+                    data: prices_days,
+                    borderColor: 'rgba(42,39,255,0.79)',
+                    backgroundColor: 'rgba(42,39,255,0.69)'
+                }]
+            },
+            options: {
+                legend: {
+                    labels: {
+                        fontColor: 'black'
+                    }
+                },
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            fontColor: 'black',
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: 'black'
+                        }
+                    }]
+                }
+            }
+        })
     </script>
 {% endblock %}

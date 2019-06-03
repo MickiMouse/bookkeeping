@@ -1,6 +1,6 @@
 from app.charts import bp
 from app.charts.forms import *
-from app.graph import Graph
+from app.request_db import CardResponse
 from flask import redirect, url_for, render_template
 from flask_login import login_required, current_user
 from app.crendentials import calendar_month
@@ -47,7 +47,7 @@ def graphics():
 @login_required
 def graph_days_line(month, year):
     filter_dict = {'month': int(month), 'year': year}
-    chart = Graph(current_user, **filter_dict)
+    chart = CardResponse(current_user, **filter_dict)
     days, prices = chart.get_cards('day')
     return render_template('graph_days_line.html',
                            days=days,
@@ -59,7 +59,7 @@ def graph_days_line(month, year):
 @login_required
 def graph_month_line(year):
     filter_dict = {'year': year}
-    chart = Graph(current_user, **filter_dict)
+    chart = CardResponse(current_user, **filter_dict)
     month, prices = chart.get_cards('month')
     month = calendar_month(month)
     return render_template('graph_month_line.html', month=month, prices=prices)
@@ -69,7 +69,7 @@ def graph_month_line(year):
 @login_required
 def graph_category_bar(month, year):
     filter_dict = {'month': int(month), 'year': year}
-    chart = Graph(current_user, **filter_dict)
+    chart = CardResponse(current_user, **filter_dict)
     categories, prices = chart.get_cards('category')
     return render_template('graph_categories_bar.html',
                            cat=categories, prices=prices,
@@ -80,7 +80,7 @@ def graph_category_bar(month, year):
 @login_required
 def graph_month_hbar(category, year):
     filter_dict = {'category': category, 'year': year}
-    chart = Graph(current_user, **filter_dict)
+    chart = CardResponse(current_user, **filter_dict)
     month, prices = chart.get_cards('month')
     month = calendar_month(month)
     return render_template('graph_categories_hbar.html', month=month, prices=prices, category=category)
@@ -89,6 +89,6 @@ def graph_month_hbar(category, year):
 @bp.route('/<category>/<month>/<year>', methods=['GET'])
 def graph_category_month(category, month, year):
     filter_dict = {'category': category, 'month': month, 'year': year}
-    chart = Graph(current_user, **filter_dict)
+    chart = CardResponse(current_user, **filter_dict)
     days, prices = chart.get_cards('day')
     return render_template('graph_category_per_day.html', days=days, prices=prices, category=category)
