@@ -24,7 +24,7 @@ h2 {
     font-size: xx-large;
 }
 .style-form {
-    width: 25%;
+    width: 30%;
     background-color: #f0f0f0;
 }
 .burger-menu__button {
@@ -141,9 +141,6 @@ h2 {
 }
 .index-card__total {
     font-size: 30px;
-}
-.f-right {
-    float: right;
 }
 .decor-left a {
     text-decoration: none;

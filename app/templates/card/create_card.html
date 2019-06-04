@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 
 {% block app_content %}
@@ -35,19 +35,19 @@
             <div class="form-group">
                 <div class="form-row">
                     <div class="col">
-                        {{ form.day(class='form-control', placeholder='day (optional)') }}
+                        {{ form.day(class='form-control', placeholder='day') }}
                         {% for error in form.day.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
                     </div>
                     <div class="col">
-                        {{ form.month(class='form-control', placeholder='month (optional)') }}
+                        {{ form.month(class='form-control', placeholder='month') }}
                         {% for error in form.month.errors %}
                     <div class="invalid-feedback d-block">{{ error }}</div>
                 {% endfor %}
                     </div>
                     <div class="col">
-                        {{ form.year(class='form-control', placeholder='year (optional)') }}
+                        {{ form.year(class='form-control', placeholder='year') }}
                         {% for error in form.year.errors %}
                             <div class="invalid-feedback d-block">{{ error }}</div>
                         {% endfor %}
@@ -70,13 +70,11 @@
             let exp = document.getElementById('category_expenses');
             let inc = document.getElementById('category_incomes');
             if (e.value === '0') {
-                console.log(e.value);
-                inc.style = 'border: 2px solid rgba(175,1,5,0.77)';
-                exp.style = 'border: 2px solid rgba(41,175,25,0.77)';
+                inc.disabled = true;
+                exp.disabled = false;
             } else {
-                console.log(e.value);
-                exp.style = 'border: 2px solid rgba(175,1,5,0.77)';
-                inc.style = 'border: 2px solid rgba(41,175,25,0.77)';
+                exp.disabled = true;
+                inc.disabled = false;
             }
         }
         exchange();

@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 
 {% block app_content %}
@@ -21,14 +21,14 @@
         <div class="flex-column flex-grow-1">
             <table class="table my-0" style="background-color: #ffffff">
                 {% for card in cards.items %}
-                    {% include '_card.html' %}
+                    {% include 'include/_card.html' %}
                 {% endfor %}
                 <td><span class="index-card__total">Total</span></td>
                 <td></td>
                 {% if total < 0 %}
-                    <td><span class="index-card__total f-right" style="color: #eb0000;">{{ total }} {{ currency }} </span></td>
+                    <td><span class="index-card__total float-right" style="color: #eb0000;">{{ total }} {{ currency }} </span></td>
                 {% else %}
-                    <td><span class="index-card__total f-right" style="color: #00af00;">+{{ total }} {{ currency }}</span></td>
+                    <td><span class="index-card__total float-right" style="color: #00af00;">+{{ total }} {{ currency }}</span></td>
                 {% endif %}
             </table>
         </div>
@@ -46,8 +46,15 @@
             <table class="table">
             {% for percent in percents %}
                 <tr>
-                    <td class="percent"><span>{{ percent[0] }}</span></td>
-                    <td class="percent"><span>{{ percent[1] }}</span></td>
+                    <td class="percent">
+                        <span class="decor-left">
+                            <a href="{{ url_for('main.describe', category=percent[0], year=year, month=month) }}">
+                                {{ percent[0] }}
+                            </a>
+                        </span>
+                    </td>
+                    <td class="percent"><span>{{ percent[1] }} $</span></td>
+                    <td class="percent"><span class="float-right">{{ percent[2] }}%</span></td>
                 </tr>
             {% endfor %}
             </table>
@@ -55,9 +62,6 @@
         <div class="flex-column flex-grow-1 bg-white ml-2" style="max-width: 550px;">
             <p class="p-2 my-0   border-bottom">Costs per {{ date[0] }} {{ date[1] }}</p>
             <canvas id="pieAllCategories"></canvas>
-{#            <div style="width: 550px;">#}
-
-{#            </div>#}
         </div>
     </div>
 {% endblock %}
@@ -68,7 +72,7 @@
         let categories = {{ categories|safe }};
         let prices = {{ prices|safe }}
         new Chart(document.getElementById("pieAllCategories").getContext('2d'), {
-            type: 'pie',
+            type: 'doughnut',
             data: {
                 labels: categories,
                 datasets: [{

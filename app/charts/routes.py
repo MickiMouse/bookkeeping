@@ -38,7 +38,7 @@ def graphics():
         if form.validate_on_submit():
             return redirect(url_for(forms_dict[form][0], **forms_dict[form][1]))
 
-    return render_template('graph.html',
+    return render_template('charts/graph.html',
                            form1=forms[0], form2=forms[1], form3=forms[2],
                            form4=forms[3], form5=forms[4])
 
@@ -49,7 +49,7 @@ def graph_days_line(month, year):
     filter_dict = {'month': int(month), 'year': year}
     chart = CardResponse(current_user, **filter_dict)
     days, prices = chart.get_cards('day')
-    return render_template('graph_days_line.html',
+    return render_template('charts/graph_days_line.html',
                            days=days,
                            prices=prices,
                            month=calendar_month([int(month)]))
@@ -62,7 +62,7 @@ def graph_month_line(year):
     chart = CardResponse(current_user, **filter_dict)
     month, prices = chart.get_cards('month')
     month = calendar_month(month)
-    return render_template('graph_month_line.html', month=month, prices=prices)
+    return render_template('charts/graph_month_line.html', month=month, prices=prices)
 
 
 @bp.route('/categories/<month>/<year>', methods=['GET'])
@@ -71,7 +71,7 @@ def graph_category_bar(month, year):
     filter_dict = {'month': int(month), 'year': year}
     chart = CardResponse(current_user, **filter_dict)
     categories, prices = chart.get_cards('category')
-    return render_template('graph_categories_bar.html',
+    return render_template('charts/graph_categories_bar.html',
                            cat=categories, prices=prices,
                            month=calendar_month([int(month)]))
 
@@ -83,7 +83,7 @@ def graph_month_hbar(category, year):
     chart = CardResponse(current_user, **filter_dict)
     month, prices = chart.get_cards('month')
     month = calendar_month(month)
-    return render_template('graph_categories_hbar.html', month=month, prices=prices, category=category)
+    return render_template('charts/graph_categories_hbar.html', month=month, prices=prices, category=category)
 
 
 @bp.route('/<category>/<month>/<year>', methods=['GET'])
@@ -91,4 +91,4 @@ def graph_category_month(category, month, year):
     filter_dict = {'category': category, 'month': month, 'year': year}
     chart = CardResponse(current_user, **filter_dict)
     days, prices = chart.get_cards('day')
-    return render_template('graph_category_per_day.html', days=days, prices=prices, category=category)
+    return render_template('charts/graph_category_per_day.html', days=days, prices=prices, category=category)

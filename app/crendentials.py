@@ -5,11 +5,8 @@ def calendar_month(args):
 
 def get_percents(categories, prices):
     percents = [x / sum(prices) * 100 for x in prices]
-    z = [j for i, j in sorted(zip(percents, categories), key=lambda pair: pair[0])]
-    percents.sort()
-    percents.reverse()
-    z.reverse()
-    data = ['{} {}%'.format(z[i], round(percents[i], 2)).split(' ') for i in range(len(percents))]
+    z = [[i, j, k] for i, j, k in reversed(sorted(zip(percents, prices, categories), key=lambda pair: pair[0]))]
+    data = [[z[i][2], z[i][1], round(z[i][0], 2)] for i in range(len(z))]
 
     if len(data) > 5:
         return data[:5]

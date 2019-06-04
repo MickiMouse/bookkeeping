@@ -1,57 +1,57 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 
 {% block app_content %}
-    <canvas id="graph_line"></canvas>
+    <canvas id="bars"></canvas>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
     <script>
-        let days = {{ days|safe }};
+        let month = {{ month|safe }};
         let price = {{ prices|safe }};
-        let line = document.getElementById('graph_line').getContext('2d');
-        new Chart(line, {
-            type: 'line',
+        let bar = document.getElementById('bars').getContext('2d');
+        new Chart(bar, {
+            type: 'horizontalBar',
             data: {
-                labels: days,
+                labels: month,
                 datasets: [{
-                    label: 'Expenses in day',
+                    label: '{{ category }}',
                     data: price,
                     fill: false,
-                    borderColor: "#130bb0",
+                    backgroundColor: "rgba(255,82,2, 0.8)",
+                    borderColor: "rgba(255,5,7,0.8)",
+                    borderWidth: 2,
+                    hoverBackgroundColor: "rgba(255,82,2,1)",
+                    hoverBorderColor: "rgba(255,5,7,1)",
                     lineTension: 0.1
                 }]
             },
             options: {
-                title: {
-                    display: true,
-                    text: 'Your expenses in '
-                },
                 legend: {
                     labels: {
-                        fontColor: 'black'
+                        fontColor: "black"
                     }
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
-                            fontColor: 'black',
+                            fontColor: "black"
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Months'
+                        }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black",
                             beginAtZero: true
                         },
                         scaleLabel: {
                             display: true,
                             labelString: 'Price'
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
-                            fontColor: 'black'
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Days'
                         }
                     }]
                 }

@@ -1,4 +1,3 @@
-# import itsdangerous
 from app import db
 from app.auth import bp
 from app.auth.forms import *
@@ -33,7 +32,7 @@ def login():
             next_page = url_for('main.index')
 
         return redirect(next_page)
-    return render_template('login.html', form=form)
+    return render_template('auth/login.html', form=form)
 
 
 @bp.route('/logout')
@@ -57,7 +56,7 @@ def register():
         flash('Check your email and confirm your account')
         '''
         return redirect(url_for('auth.login'))
-    return render_template('register.html', form=form)
+    return render_template('auth/register.html', form=form)
 
 
 @bp.route('/reset_password_request', methods=['GET', 'POST'])
@@ -73,7 +72,7 @@ def reset_password_request():
             return redirect(url_for('auth.login'))
         else:
             flash('Sorry, we have not user with this email')
-    return render_template('reset_password_request.html', form=form)
+    return render_template('auth/reset_password_request.html', form=form)
 
 
 @bp.route('/reset_password/<token>', methods=['GET', 'POST'])
@@ -89,14 +88,14 @@ def reset_password(token):
         db.session.commit()
         flash('Your password has been reset')
         return redirect(url_for('auth.login'))
-    return render_template('reset_password.html', form=form)
+    return render_template('auth/reset_password.html', form=form)
 
 
 '''
 @bp.route('/confirm/<token>')
 def confirm(token):
     if current_user.is_authenticated:
-        return redirect(url_for('index'))
+        return redirect(url_for('main.index'))
     try:
         user_dict = serializer.loads(token, salt=ACTIVATION_SALT)
         user = User(email=user_dict['email'],
@@ -106,6 +105,6 @@ def confirm(token):
         db.session.commit()
         flash('Account has been confirmed')
     except itsdangerous.BadSignature:
-        return redirect(url_for('index'))
-    return redirect(url_for('login'))
+        return redirect(url_for('main.index'))
+    return redirect(url_for('auth.login'))
 '''

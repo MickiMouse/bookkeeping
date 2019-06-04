@@ -33,6 +33,6 @@ class CardResponse:
                 for card in cards:
                     if card.month not in self.data and not card.kind:
                         self.data[card.month] = card.price
-                    elif not card.kind:
+                    else:
                         self.data[card.month] += card.price
         return self.transform_data(0)

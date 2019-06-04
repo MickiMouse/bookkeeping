@@ -10,7 +10,7 @@ from flask_login import login_required, current_user
 
 @bp.route('/')
 def preview():
-    return render_template('preview.html')
+    return render_template('main/preview.html')
 
 
 @bp.route('/index', methods=['GET'])
@@ -56,7 +56,7 @@ def index():
                                      month=month,
                                      year=year).all()
     total = get_total(all_cards)
-    return render_template('index.html', cards=cards, next_url=next_url_page, prev_url=prev_url_page,
+    return render_template('main/index.html', cards=cards, next_url=next_url_page, prev_url=prev_url_page,
                            date=date, categories=categories, prices=prices, bg_colors=bg_colors,
                            total=total, percents=percents, currency=currency, month=month, year=year)
 
@@ -65,7 +65,7 @@ def index():
 @login_required
 def table():
     cards = current_user.notes.all()
-    return render_template('table.html', cards=cards)
+    return render_template('main/table.html', cards=cards)
 
 
 @bp.route('/describe', methods=['GET'])
@@ -84,16 +84,20 @@ def describe():
     response = CardResponse(current_user, month=month)
     categories, prices_category = response.get_cards('category')
 
-    idx = categories.index(category)
-    target = categories.pop(idx)
-    price = prices_category.pop(idx)
-
-    categories = [target, 'Other']
-    prices_category = [price, sum(prices_category)]
+    try:
+        idx = categories.index(category)
+        target = categories.pop(idx)
+        price = prices_category.pop(idx)
+        categories = [target, 'Other']
+        prices_category = [price, sum(prices_category)]
+    except:
+        categories = ['Other']
+        prices_category = [sum(prices_category)]
 
     response = CardResponse(current_user, category=category, month=month)
     days, prices_days = response.get_cards('day')
-    return render_template('statistics.html',
+
+    return render_template('main/statistics.html',
                            date=date, months=months, prices_months=prices_months,
                            categories=categories, prices_category=prices_category,
                            days=days, prices_days=prices_days,

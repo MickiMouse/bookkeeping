@@ -1,45 +1,43 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 
 {% block app_content %}
-    <div class="d-flex" style="background-color: #FFFFFF;">
-        <canvas id="graph_bars"></canvas>
-    </div>
+    <canvas id="graph_line"></canvas>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
     <script>
-        let cat = {{ cat|safe }};
+        let days = {{ days|safe }};
         let price = {{ prices|safe }};
-        let bar = document.getElementById('graph_bars').getContext('2d');
-        new Chart(bar, {
-            type: 'bar',
+        let line = document.getElementById('graph_line').getContext('2d');
+        new Chart(line, {
+            type: 'line',
             data: {
-                labels: cat,
+                labels: days,
                 datasets: [{
-                    label: 'Category',
+                    label: 'Expenses in day',
                     data: price,
                     fill: false,
-                    backgroundColor: "rgba(255,82,2, 0.8)",
-                    borderColor: "rgba(255,5,7,0.8)",
-                    borderWidth: 2,
-                    hoverBackgroundColor: "rgba(255,82,2,1)",
-                    hoverBorderColor: "rgba(255,5,7,1)",
+                    borderColor: "#130bb0",
                     lineTension: 0.1
                 }]
             },
             options: {
+                title: {
+                    display: true,
+                    text: 'Your expenses in '
+                },
                 legend: {
                     labels: {
-                        fontColor: "black"
+                        fontColor: 'black'
                     }
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
-                            fontColor: "black",
+                            fontColor: 'black',
                             beginAtZero: true
                         },
                         scaleLabel: {
@@ -49,13 +47,13 @@
                     }],
                     xAxes: [{
                         ticks: {
-                            fontColor: "black"
+                            fontColor: 'black'
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Days'
                         }
                     }]
-                },
-                title: {
-                    display: true,
-                    text: 'Costs by category'
                 }
             }
         });

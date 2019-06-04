@@ -8,10 +8,10 @@
     </td>
     <td><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>
     {% if card.kind %}
-        <td><span class="f-right" style="color: #00af00;">+{{ card.price }} {{ currency }}</span></td>
+        <td><span class="float-right" style="color: #00af00;">+{{ card.price }} {{ currency }}</span></td>
     {% else %}
         <td>
-            <span class="f-right" style="color: #eb0000;">-{{ card.price }} {{ currency }}</span>
+            <span class="float-right" style="color: #eb0000;">-{{ card.price }} {{ currency }}</span>
         </td>
     {% endif %}
     <td class="border-left border-bottom">

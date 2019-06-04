@@ -1,23 +1,25 @@
-{% extends 'base.html' %}
+{% extends 'main/base.html' %}
 
 
 {% block app_content %}
-    <canvas id="bars"></canvas>
+    <div class="d-flex" style="background-color: #FFFFFF;">
+        <canvas id="graph_bars"></canvas>
+    </div>
 {% endblock %}
 
 
 {% block scripts %}
     {{ super() }}
     <script>
-        let month = {{ month|safe }};
+        let cat = {{ cat|safe }};
         let price = {{ prices|safe }};
-        let bar = document.getElementById('bars').getContext('2d');
+        let bar = document.getElementById('graph_bars').getContext('2d');
         new Chart(bar, {
-            type: 'horizontalBar',
+            type: 'bar',
             data: {
-                labels: month,
+                labels: cat,
                 datasets: [{
-                    label: '{{ category }}',
+                    label: 'Category',
                     data: price,
                     fill: false,
                     backgroundColor: "rgba(255,82,2, 0.8)",
@@ -37,15 +39,6 @@
                 scales: {
                     yAxes: [{
                         ticks: {
-                            fontColor: "black"
-                        },
-                        scaleLabel: {
-                            display: true,
-                            labelString: 'Months'
-                        }
-                    }],
-                    xAxes: [{
-                        ticks: {
                             fontColor: "black",
                             beginAtZero: true
                         },
@@ -53,7 +46,16 @@
                             display: true,
                             labelString: 'Price'
                         }
+                    }],
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "black"
+                        }
                     }]
+                },
+                title: {
+                    display: true,
+                    text: 'Costs by category'
                 }
             }
         });

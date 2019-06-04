@@ -13,7 +13,6 @@ def create():
     form = CardForm()
     if form.validate_on_submit():
         category = form.category_expenses.data if form.kind.data == 0 else form.category_incomes.data
-        print(category)
         card = Card(price=form.price.data,
                     category=category,
                     note=form.note.data,
@@ -29,12 +28,13 @@ def create():
         form.day.data = datetime.utcnow().date().day
         form.month.data = datetime.utcnow().date().month
         form.year.data = datetime.utcnow().date().year
-    return render_template('create_card.html', form=form)
+    return render_template('card/create_card.html', form=form)
 
 
-@bp.route('/change/<id>', methods=['GET', 'POST'])
+@bp.route('/change', methods=['GET', 'POST'])
 @login_required
-def change(id):
+def change():
+    id = request.args.get('id', type=int)
     card = Card.query.get(int(id))
     form = CardForm()
     if form.validate_on_submit():
@@ -57,7 +57,7 @@ def change(id):
         form.month.data = card.month
         form.year.data = card.year
         form.note.data = card.note
-    return render_template('change_card.html', form=form)
+    return render_template('card/change_card.html', form=form)
 
 
 @bp.route('/delete/<id>', methods=['GET', 'POST'])
