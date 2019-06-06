@@ -4,41 +4,14 @@
 {% block app_content %}
     <div class="d-flex justify-content-between">
         <div class="d-flex">
-            <a href="{{ url_for('main.index', month=month-1, year=year) }}" class="btn-lg">&lt;</a>
+            <a href="{{ url_for('main.index', month=month - 1, year=year) }}" class="btn-lg">&lt;</a>
             <h2>{{ date[0] }} {{ date[1] }}</h2>
-            <a href="{{ url_for('main.index', month=month+1, year=year) }}" class="btn-lg">&gt;</a>
+            <a href="{{ url_for('main.index', month=month + 1, year=year) }}" class="btn-lg">&gt;</a>
         </div>
         <a href="{{ url_for('card.create') }}"><button class="light-button">Add card</button></a>
     </div>
-    <div class="d-flex my-3">
-        <div class="flex-column">
-            <a href="{{ prev_url }}">
-                <button class="paginate-button" type="button" {% if prev_url is none %}disabled{% endif %}>
-                    ❮
-                </button>
-            </a>
-        </div>
-        <div class="flex-column flex-grow-1">
-            <table class="table my-0" style="background-color: #ffffff">
-                {% for card in cards.items %}
-                    {% include 'include/_card.html' %}
-                {% endfor %}
-                <td><span class="index-card__total">Total</span></td>
-                <td></td>
-                {% if total < 0 %}
-                    <td><span class="index-card__total float-right" style="color: #eb0000;">{{ total }} {{ currency }} </span></td>
-                {% else %}
-                    <td><span class="index-card__total float-right" style="color: #00af00;">+{{ total }} {{ currency }}</span></td>
-                {% endif %}
-            </table>
-        </div>
-        <div class="flex-column">
-            <a href="{{ next_url }}">
-                <button class="paginate-button" type="button" {% if next_url is none %}disabled{% endif %}>
-                    ❯
-                </button>
-            </a>
-        </div>
+    <div class="d-flex my-3" id="content">
+        {% include 'include/_card.html' %}
     </div>
     <div class="d-flex">
         <div class="flex-column flex-grow-1 bg-white mr-2">
@@ -87,6 +60,19 @@
                 }
             }
         });
-        $.ajax();
+        function get_data(page) {
+            $.ajax({
+                type: "GET",
+                url: "/get_data?month={{ month }}&year={{ year }}&page="+page,
+                success: function (response) {
+                    $('#content').html(response);
+                    console.log(response);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+        get_data('{{ page }}');
     </script>
 {% endblock %}

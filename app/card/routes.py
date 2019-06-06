@@ -60,9 +60,10 @@ def change():
     return render_template('card/change_card.html', form=form)
 
 
-@bp.route('/delete/<id>', methods=['GET', 'POST'])
+@bp.route('/delete', methods=['GET', 'POST'])
 @login_required
-def delete(id):
+def delete():
+    id = request.args.get('id', type=int)
     card = Card.query.get(int(id))
     db.session.delete(card)
     db.session.commit()

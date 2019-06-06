@@ -4,7 +4,7 @@ from app.main import bp
 from app.request_db import CardResponse
 from app.crendentials import *
 from app.models import Card
-from flask import render_template, url_for, request, current_app
+from flask import render_template, url_for, request, current_app, jsonify
 from flask_login import login_required, current_user
 
 
@@ -16,7 +16,6 @@ def preview():
 @bp.route('/index', methods=['GET'])
 @login_required
 def index():
-    currency = '$'
     page = request.args.get('page', 1, type=int)
     month = request.args.get('month', datetime.utcnow().month, type=int)
     year = request.args.get('year', datetime.utcnow().year, type=int)
@@ -37,9 +36,6 @@ def index():
         per_page=current_app.config['CARDS_PER_PAGE'],
         error_out=False)
 
-    next_url_page = url_for('main.index', page=cards.next_num, month=month) if cards.has_next else None
-    prev_url_page = url_for('main.index', page=cards.prev_num, month=month) if cards.has_prev else None
-
     date = [calendar.month_name[month], str(year)]
 
     # statistics
@@ -56,8 +52,9 @@ def index():
                                      month=month,
                                      year=year).all()
     total = get_total(all_cards)
-    return render_template('main/index.html', cards=cards, next_url=next_url_page, prev_url=prev_url_page,
-                           date=date, categories=categories, prices=prices, bg_colors=bg_colors,
+    currency = '$'
+    return render_template('main/index.html', cards=cards,
+                           date=date, categories=categories, prices=prices, bg_colors=bg_colors, page=page,
                            total=total, percents=percents, currency=currency, month=month, year=year)
 
 
@@ -102,3 +99,28 @@ def describe():
                            categories=categories, prices_category=prices_category,
                            days=days, prices_days=prices_days,
                            month=month, year=year, category=category)
+
+
+@bp.route('/get_data', methods=['GET'])
+@login_required
+def get_data():
+    _page = request.args.get('page', 1, type=int)
+    month = request.args.get('month', type=int)
+    year = request.args.get('year', type=int)
+    cards = Card.query.filter_by(
+        payer=current_user,
+        month=month,
+        year=year
+    ).order_by(Card.timestamp.desc()).paginate(
+        page=_page,
+        per_page=current_app.config['CARDS_PER_PAGE'],
+        error_out=False)
+    next_url_page = cards.next_num if cards.has_next else None
+    prev_url_page = cards.prev_num if cards.has_prev else None
+    all_cards = Card.query.filter_by(payer=current_user,
+                                     month=month,
+                                     year=year).all()
+    total = get_total(all_cards)
+    return render_template('include/_card.html', cards=cards, _page=_page,
+                           ajax_next_url=next_url_page, ajax_prev_url=prev_url_page,
+                           total=total)
