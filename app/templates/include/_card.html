@@ -4,42 +4,49 @@
     </button>
 </div>
 <div class="flex-column flex-grow-1">
-    <table class="table bg-white my-0">
+    <ul class="list-group bg-white my-0">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="font-weight-bold">Category</span>
+            <span class="font-weight-bold">Note</span>
+            <span class="font-weight-bold">Price</span>
+        </li>
     {% for card in cards.items %}
-        <tr class="border-bottom">
-            <td>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
                 <span class="decor-left">
                     <a href="{{ url_for('main.describe', category=card.category, year=card.year, month=card.month) }}">
                         {{ card.category }}
                     </a>
                 </span>
-            </td>
-            <td><span>{% if card.note %}{{ card.note }}{% endif %}</span></td>
+                <span>{% if card.note %}{{ card.note }}{% endif %}</span>
+            <div>
             {% if card.kind %}
-                <td><span class="float-right" style="color: #00af00;">+{{ card.price }} {{ currency }}</span></td>
+                <span class="badge badge-pill badge-success">+{{ card.price }} {{ currency }}</span>
             {% else %}
-                <td>
-                    <span class="float-right" style="color: #eb0000;">-{{ card.price }} {{ currency }}</span>
-                </td>
+                <span class="badge badge-pill badge-danger">-{{ card.price }} {{ currency }}</span>
             {% endif %}
-            <td class="border-left" style="max-width: 100px">
-                <span class="d-flex justify-content-around">
-                    <a href="{{ url_for('card.change', id=card.id) }}">&#128394;</a>
-                    <a href="{{ url_for('card.delete', id=card.id) }}">
-                        <i class="material-icons">delete</i>
-                    </a>
-                </span>
-            </td>
-        </tr>
+{#            <span>#}
+{#                <a href="{{ url_for('card.change', id=card.id) }}">#}
+{#                    <i class="material-icons">create</i>#}
+{#                </a>#}
+{#                <a href="{{ url_for('card.delete', id=card.id) }}">#}
+{#                    <i class="material-icons">delete</i>#}
+{#                </a>#}
+{#            </span>#}
+            </div>
+        </li>
     {% endfor %}
-        <td><span class="index-card__total">Total</span></td>
-        <td></td>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            <span class="index-card__total">Total</span>
+{#        <td></td>#}
+{#        <td></td>#}
+{#        <td></td>#}
         {% if total < 0 %}
-            <td><span class="index-card__total float-right" style="color: #eb0000;">{{ total }} {{ currency }} </span></td>
+            <span class="index-card__total" style="color: #eb0000;">{{ total }}</span>
         {% else %}
-            <td><span class="index-card__total float-right" style="color: #00af00;">+{{ total }} {{ currency }}</span></td>
+            <span class="index-card__total" style="color: #00af00;">+{{ total }}</span>
         {% endif %}
-    </table>
+        </li>
+    </ul>
 </div>
 <div class="flex-column">
     <button onclick="get_data('{{ ajax_next_url }}');" class="paginate-button" type="button" {% if ajax_next_url is none %}disabled{% endif %}>

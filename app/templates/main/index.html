@@ -10,6 +10,7 @@
         </div>
         <a href="{{ url_for('card.create') }}"><button class="light-button">Add card</button></a>
     </div>
+    {% if prices %}
     <div class="d-flex my-3" id="content">
         {% include 'include/_card.html' %}
     </div>
@@ -26,7 +27,7 @@
                             </a>
                         </span>
                     </td>
-                    <td class="percent"><span>{{ percent[1] }} $</span></td>
+                    <td class="percent"><span>{{ percent[1] }}</span></td>
                     <td class="percent"><span class="float-right">{{ percent[2] }}%</span></td>
                 </tr>
             {% endfor %}
@@ -37,6 +38,11 @@
             <canvas id="pieAllCategories"></canvas>
         </div>
     </div>
+    {% else %}
+        <div class="d-flex justify-content-center mt-5">
+            <h2>No records for this month.</h2>
+        </div>
+    {% endif %}
 {% endblock %}
 
 

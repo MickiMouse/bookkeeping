@@ -4,7 +4,7 @@ from app.main import bp
 from app.request_db import CardResponse
 from app.crendentials import *
 from app.models import Card
-from flask import render_template, url_for, request, current_app, jsonify
+from flask import render_template, request, current_app
 from flask_login import login_required, current_user
 
 
@@ -44,18 +44,17 @@ def index():
     percents = get_percents(categories, prices)
 
     # pie
-    colors = ['#AB2B52', '#7c1f7C', '#4F2982', '#94002D', '#6C006C', '#330570',
-              '#120873', '#689AD3', '#542881', '#2618B1', '#5C0DAC', '#0D56A6']
+    colors = ['#0260E8', '#64C7FF', '#004156', '#41B619', '#F5E027', '#FB9F82',
+              '#FF6B00', '#FFDFDC', '#B40A1B', '#DC3790', '#A400FF', '#58595B']
     bg_colors = colors[:len(categories)]
 
     all_cards = Card.query.filter_by(payer=current_user,
                                      month=month,
                                      year=year).all()
     total = get_total(all_cards)
-    currency = '$'
     return render_template('main/index.html', cards=cards,
                            date=date, categories=categories, prices=prices, bg_colors=bg_colors, page=page,
-                           total=total, percents=percents, currency=currency, month=month, year=year)
+                           total=total, percents=percents, month=month, year=year)
 
 
 @bp.route('/table', methods=['GET', 'POST'])
@@ -94,7 +93,7 @@ def describe():
     response = CardResponse(current_user, category=category, month=month)
     days, prices_days = response.get_cards('day')
 
-    return render_template('main/statistics.html',
+    return render_template('main/stat_expenses.html',
                            date=date, months=months, prices_months=prices_months,
                            categories=categories, prices_category=prices_category,
                            days=days, prices_days=prices_days,

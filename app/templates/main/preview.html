@@ -10,11 +10,9 @@
     </head>
     <body class="bg-img">
         <div class="d-flex justify-content-center">
-            <div class="prev">
-                <a href="{% if current_user.is_active %}{{ url_for('main.index') }}{% else %}{{ url_for('auth.register') }}{% endif %}">
-                    <button class="light-button">Get Started</button>
-                </a>
-            </div>
+            <a href="{% if current_user.is_authenticated %}{{ url_for('main.index') }}{% else %}{{ url_for('auth.register') }}{% endif %}">
+                <button class="light-button">Get Started</button>
+            </a>
         </div>
     </body>
 </html>

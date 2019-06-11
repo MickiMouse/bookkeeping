@@ -2,7 +2,7 @@
 
 
 {% block app_content %}
-    <table class="table table-bordered">
+    <table class="table table-bordered table-light">
         <tr>
             <th scope="col">Category</th>
             <th scope="col">Price</th>
@@ -13,7 +13,12 @@
         {% for card in cards %}
             <tr>
                 <td>{{ card.category }}</td>
-                <td>{{ card.price }}</td>
+                <td>
+                    {% if card.kind %}
+                        <span class="badge badge-pill badge-success">+{{ card.price }}</span>
+                    {% else %}
+                        <span class="badge badge-pill badge-danger">-{{ card.price }}</span>
+                    {% endif %}
                 <td>{{ card.year }}</td>
                 <td>{{ card.month }}</td>
                 <td>{{ card.day }}</td>
