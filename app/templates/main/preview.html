@@ -8,11 +8,9 @@
               integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     </head>
-    <body class="bg-img">
-        <div class="d-flex justify-content-center">
-            <a href="{% if current_user.is_authenticated %}{{ url_for('main.index') }}{% else %}{{ url_for('auth.register') }}{% endif %}">
-                <button class="light-button">Get Started</button>
-            </a>
-        </div>
+    <body class="bg-img d-flex justify-content-center">
+        <a class="mx-5" href="{% if current_user.is_authenticated %}{{ url_for('main.index') }}{% else %}{{ url_for('auth.register') }}{% endif %}">
+            <button class="light-button"><span class="h1">Get Started</span></button>
+        </a>
     </body>
 </html>

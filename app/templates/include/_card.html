@@ -4,38 +4,36 @@
     </button>
 </div>
 <div class="flex-column flex-grow-1">
-    <ul class="list-group bg-white my-0">
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-            <span class="font-weight-bold">Category</span>
-            <span class="font-weight-bold">Note</span>
-            <span class="font-weight-bold">Price</span>
-        </li>
+    <ul class="list-group my-0 px-3">
+{#        <li class="list-group-item d-flex justify-content-between align-items-center mb-1">#}
+{#            <span class="font-weight-bold">Category</span>#}
+{#            <span class="font-weight-bold">Note</span>#}
+{#            <span class="font-weight-bold">Price</span>#}
+{#        </li>#}
     {% for card in cards.items %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
-                <span class="decor-left">
-                    <a href="{{ url_for('main.describe', category=card.category, year=card.year, month=card.month) }}">
-                        {{ card.category }}
-                    </a>
-                </span>
-                <span>{% if card.note %}{{ card.note }}{% endif %}</span>
+        <li class="list-group-item d-flex justify-content-between align-items-center my-1">
+            <div class="decor-left">
+                <a href="{{ url_for('main.describe', category=card.category, year=card.year, month=card.month) }}">
+                    {{ card.category }}
+                </a>
+            </div>
+            <div>{% if card.note %}{{ card.note }}{% endif %}</div>
             <div>
             {% if card.kind %}
-                <span class="badge badge-pill badge-success">+{{ card.price }} {{ currency }}</span>
+                <div class="badge badge-pill badge-success" style="font-size: 14px;">+{{ card.price }} {{ currency }}</div>
             {% else %}
-                <span class="badge badge-pill badge-danger">-{{ card.price }} {{ currency }}</span>
+                <div class="badge badge-pill badge-danger" style="font-size: 14px;">-{{ card.price }} {{ currency }}</div>
             {% endif %}
-{#            <span>#}
 {#                <a href="{{ url_for('card.change', id=card.id) }}">#}
-{#                    <i class="material-icons">create</i>#}
+{#                    <i class="material-icons" style="font-size: 14px;">create</i>#}
 {#                </a>#}
 {#                <a href="{{ url_for('card.delete', id=card.id) }}">#}
-{#                    <i class="material-icons">delete</i>#}
+{#                    <i class="material-icons" style="font-size: 14px;">delete</i>#}
 {#                </a>#}
-{#            </span>#}
             </div>
         </li>
     {% endfor %}
-        <li class="list-group-item d-flex justify-content-between align-items-center">
+        <li class="list-group-item d-flex justify-content-between align-items-center mt-1">
             <span class="index-card__total">Total</span>
 {#        <td></td>#}
 {#        <td></td>#}

@@ -1,6 +1,6 @@
 from app.models import User
 from app.api import bp
-from flask import request, jsonify
+from flask import jsonify
 
 
 @bp.route('/api/users', methods=['GET'])

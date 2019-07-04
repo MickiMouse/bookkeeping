@@ -1,7 +1,7 @@
-{% extends "base.html" %}
+{% extends "main/base.html" %}
 
 
 {% block app_content %}
-    <h1>Not Found</h1>
-    <p><a href="{{ url_for('main.index') }}">Back</a></p>
+    <h3>Not Found</h3>
+    <p><a href="{{ url_for('main.index') }}"><button class="dark-button">Back</button></a></p>
 {% endblock %}

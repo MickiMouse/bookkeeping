@@ -72,7 +72,6 @@
                 url: "/get_data?month={{ month }}&year={{ year }}&page="+page,
                 success: function (response) {
                     $('#content').html(response);
-                    console.log(response);
                 },
                 error: function (error) {
                     console.log(error);
